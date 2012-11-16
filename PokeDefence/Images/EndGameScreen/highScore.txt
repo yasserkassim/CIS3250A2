@@ -1,0 +1,20 @@
+map1
+Haru 10000
+Robert 8000
+jerry 6000
+alex 4000
+sam 2000
+
+map2
+Haru 10000
+Robert 8000
+jerry 6000
+alex 4000
+sam 2000
+
+map3
+Haru 10000
+Robert 8000
+jerry 6000
+alex 4000
+sam 2000
