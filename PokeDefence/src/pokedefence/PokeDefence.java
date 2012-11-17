@@ -21,13 +21,11 @@ import javax.imageio.*;
  * @author Justin
  */
 public class PokeDefence {
-    //Random commentttt
     /********************Variables***********************/
     private static int score=0;
     private static int lives = 10;
     private static int gold = 0;
     private static int mouseClickCount=0;
-    private static String highScoreList[];
     private static String[][] mapLayout = new String[11][26];
     private static int count=0;
     private static ArrayList<JPanel> battleField = new ArrayList<>();
@@ -37,7 +35,6 @@ public class PokeDefence {
     private static String[] mapImagePath = {"./Images/Maps/map1.png", "./Images/Maps/map2.png", "./Images/Maps/map3.png"};
     private static String[] mapFilePath = {"./Images/Maps/map1.txt", "./Images/Maps/map2.txt", "./Images/Maps/map3.txt"};
     /****************End of Variables********************/
-    
     
     /****************Main Window Items*******************/
     private static JFrame mainWindow = new JFrame("Tower Defense");
@@ -91,23 +88,24 @@ public class PokeDefence {
     private static JLabel loseLabel = new JLabel();
     private static JTextArea gameStats = new JTextArea();
     private static JTextArea highScores = new JTextArea();
+    private static String highScoreList[][];
     private static JButton returnToMenu = new JButton("Return to Menu");
     //Use quit button predefined above in this window.
     
     /**********End of End-Game Window Items*************/
-    public static void  main(String[] args){
-        createMainWindow();
+    public static void  main(String[] args) throws IOException{
+        //createMainWindow();
         //createGameOptionsWindow();
         //createInGameWindow();
         //createEndGameWindow();
-        //readMapIn();
+        readMapIn();
+        //getHighScores();
         
     }
     
     private static void createMainWindow(){
         endGameScreen.dispose();
         gameOptionsWindow.dispose();
-        
         
         //Frame
         mainWindow.setLayout(null);
@@ -462,7 +460,7 @@ public class PokeDefence {
         highScores.setLocation(750,100);
         highScores.setLineWrap(true);
         highScores.setWrapStyleWord(true);
-        highScores.setText(getHighScores());
+        getHighScores();
         highScores.setBackground(Color.red);
         endGameScreen.add(highScores);
         
@@ -560,9 +558,37 @@ public class PokeDefence {
         //Write scores from array into text file, save in location ./Highscores/highscores.txt
         
     }
-    private static String getHighScores(){
-        //Read and parse in the highscore file
-        return "";
+    
+    private static void getHighScores(){
+        Scanner fileInput = null; 
+        String input;
+        
+        //String[][] grid = new String[11][26];
+        int j=0;
+        try{        
+            fileInput =  new Scanner(new File("./Images/EndGameScreen/highScore.txt"));
+             while (fileInput.hasNextLine()){
+                input = fileInput.nextLine();
+                String[] stringTokens = input.split(" ");
+            
+                for(int i = 0; i < stringTokens.length; i++){
+                    highScoreList[j][i] = stringTokens[i];
+                }
+                j++;
+            }
+        }
+        catch(FileNotFoundException ex){
+            System.exit(0);
+            //Maybe have popup stating error occured
+        }
+        finally{
+            fileInput.close();
+        }
+        for(int i=0;i<highScoreList.length;i++){
+            for(j=0;j<2;j++){
+                System.out.println(highScoreList[i][j]);
+            }
+        }
     }
 
     public static int getScore() {
