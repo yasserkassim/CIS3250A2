@@ -1,5 +1,10 @@
-import java.lang.*;
-import java.util.StringTokenizer;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pokedefence;
+
+
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
@@ -10,13 +15,13 @@ import java.text.NumberFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.*;
+
 /**
  *
- * @author GroupAssignment
+ * @author Justin
  */
+public class PokeDefence {
 
-
-public class Main { 
     /********************Variables***********************/
     private static int score=0;
     private static int lives = 10;
@@ -26,6 +31,11 @@ public class Main {
     private static String[][] mapLayout = new String[11][26];
     private static int count=0;
     private static ArrayList<JPanel> battleField = new ArrayList<>();
+    private static int winCondition=0;
+    private static int mapPreviewCounter=0;
+    private static JLabel mapPreviewImage = new JLabel();
+    private static String[] mapImagePath = {"./Images/Maps/map1.png", "./Images/Maps/map2.png", "./Images/Maps/map3.png"};
+    private static String[] mapFilePath = {"./Images/Maps/map1.txt", "./Images/Maps/map2.txt", "./Images/Maps/map3.txt"};
     /****************End of Variables********************/
     
     
@@ -45,7 +55,7 @@ public class Main {
     private static JFrame gameOptionsWindow = new JFrame("Options");
     private static JPanel mapSelectionTitle = new JPanel();
     private static JPanel mapPreview = new JPanel();
-    private static JLabel mapPrviewLabel = new JLabel();
+    private static JLabel mapPreviewLabel = new JLabel();
     private static JButton mapPreviewNext = new JButton();
     private static JButton mapPreviewPrevious = new JButton();
     private static JTextArea mapDescription = new JTextArea();
@@ -77,6 +87,8 @@ public class Main {
     /************End-Game Window Items******************/
     private static JFrame endGameScreen = new JFrame();
     private static JPanel winOrLose = new JPanel();
+    private static JLabel winLabel = new JLabel();
+    private static JLabel loseLabel = new JLabel();
     private static JTextArea gameStats = new JTextArea();
     private static JTextArea highScores = new JTextArea();
     private static JButton returnToMenu = new JButton("Return to Menu");
@@ -166,6 +178,9 @@ public class Main {
     
     private static void createGameOptionsWindow(){
         mainWindow.dispose();
+        
+        mapPreviewImage.setIcon(new ImageIcon(mapImagePath[mapPreviewCounter]));
+        
         gameOptionsWindow.setLayout(null);
         gameOptionsWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameOptionsWindow.pack();
@@ -183,25 +198,43 @@ public class Main {
         mapSelectionTitle.setBackground(Color.BLACK);
         gameOptionsWindow.add(mapSelectionTitle);
         
+        
         mapPreview.setSize(150,150);
         mapPreview.setLocation(150,250);
-        mapPreview.setBackground(Color.red);
+        mapPreviewLabel.setIcon(new ImageIcon(mapImagePath[mapPreviewCounter]));
         mapPreview.setVisible(true);
-        //mapPreviewLabel.setIcon(new ImageIcon());
-        //mapPreview.add(mapPreviewLabel);
-        mapPreview.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+        mapPreview.add(mapPreviewLabel);
+        
         gameOptionsWindow.add(mapPreview);
         
-        mapPreviewNext.setSize(50,150);
-        mapPreviewNext.setLocation(300,250);
+        mapPreviewNext.setSize(50,145);
+        mapPreviewNext.setLocation(300,255);
         mapPreviewNext.setText(">");
         mapPreviewNext.setVisible(true);
+        
+        Action previewNext = new AbstractAction("") {
+            public void actionPerformed(ActionEvent e) {
+               
+                previewCycler(1);
+            }
+        };
+        mapPreviewNext.addActionListener(previewNext);
+        
+        
         gameOptionsWindow.add(mapPreviewNext);
         
-        mapPreviewPrevious.setSize(50,150);
-        mapPreviewPrevious.setLocation(100,250);
+        mapPreviewPrevious.setSize(50,145);
+        mapPreviewPrevious.setLocation(100,255);
         mapPreviewPrevious.setText("<");
         mapPreviewPrevious.setVisible(true);
+        
+        Action previewPrevious = new AbstractAction("") {
+            public void actionPerformed(ActionEvent e) {
+                previewCycler(-1);
+            }
+        };
+        mapPreviewPrevious.addActionListener(previewPrevious);
+        
         gameOptionsWindow.add(mapPreviewPrevious);
         
         mapDescription.setSize(400,150);
@@ -233,7 +266,7 @@ public class Main {
                 try {
                     createInGameWindow();
                 } catch (IOException ex) {
-                   System.exit(0);
+                    System.exit(0);
                 }
             }
         };
@@ -289,8 +322,6 @@ public class Main {
                 battleField.add(new JPanel());
                 battleField.get(count).setSize(40,40);
                 battleField.get(count).setLocation((i*40)-40,(j*40)+50);
-                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black,1));
-                //battleField.get(count).setBackground(Color.blue);
                 gridWindow.add(battleField.get(count));
                 
                 if (mapLayout[j][i].equals("0")) {
@@ -303,10 +334,6 @@ public class Main {
                     battleField.get(count).setBackground(Color.gray);
                     count++;
                 }
-                
-                
-                
-                //count++;
             }
         }
         gridWindow.repaint();
@@ -344,7 +371,6 @@ public class Main {
                             if(mapLayout[j][i].equals("0")){
                                 battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black,1));
                                 battleField.get(count).setBackground(Color.GREEN);
-                                
                                 count++;
                             }
                             else if(mapLayout[j][i].equals("1")){
@@ -364,7 +390,6 @@ public class Main {
                             if(mapLayout[j][i].equals("0")){
                                 battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black,1));
                                 battleField.get(count).setBackground(Color.blue);
-                                
                                 count++;
                             }
                             else if(mapLayout[j][i].equals("1")){
@@ -392,7 +417,7 @@ public class Main {
         gridWindow.repaint();
     }
     
-    private void createEndGameWindow(){
+    private static void createEndGameWindow(){
         gridWindow.dispose();
         
         //Frame
@@ -407,12 +432,24 @@ public class Main {
         endGameScreen.setVisible(true);
         
         //Panel
-        winOrLose.setSize(400,150);
-        winOrLose.setLocation(300,20);
+        winOrLose.setSize(336,168);
+        winOrLose.setLocation(335,20);
         winOrLose.setVisible(true);
-        winOrLose.setBackground(Color.black);
-        winOrLose.setBorder(BorderFactory.createLineBorder(Color.blue, 3));
+        
+        if(winCondition == 1){
+            //Win Label
+            winLabel.setIcon(new ImageIcon("./Images/EndGameScreen/win.png"));
+            winLabel.setVisible(true);
+            winOrLose.add(winLabel);
+        }
+        else if(winCondition != 1){
+            //Lose Label
+            loseLabel.setIcon(new ImageIcon("./Images/EndGameScreen/lose.png"));
+            loseLabel.setVisible(true);
+            winOrLose.add(loseLabel);
+        }
         endGameScreen.add(winOrLose);
+        
         
         //TextArea
         gameStats.setSize(200,400);
@@ -443,15 +480,15 @@ public class Main {
         //Button
         quitButton.setSize(250,50);
         quitButton.setLocation(370,450);
-        Action closeProgram = new AbstractAction("") {
+        Action exitGame = new AbstractAction("") {
             public void actionPerformed(ActionEvent e) {
                 writeNewHighScores();
                 System.exit(0);
             }
         };
-        quitButton.addActionListener(closeProgram);
+        quitButton.addActionListener(exitGame);
         endGameScreen.add(quitButton);
-        
+        endGameScreen.repaint();
     }
     
     private static void readMapIn() throws IOException{
@@ -461,7 +498,7 @@ public class Main {
         String[][] grid = new String[11][26];
         int j=0;
         try{        
-            fileInput =  new Scanner(new File("./Images/Maps/map3.txt"));
+            fileInput =  new Scanner(new File(mapFilePath[mapPreviewCounter]));
              while (fileInput.hasNextLine()){
                 input = fileInput.nextLine();
                 String[] stringTokens = input.split("");
@@ -471,13 +508,6 @@ public class Main {
                 }
                 j++;
             }
-        
-            for(j = 0 ; j < 11; j++){
-                for(int i = 0; i < 25; i++){
-                    System.out.print(grid[j][i]);
-                }
-                System.out.print("\n");
-            }
         }
         catch(FileNotFoundException ex){
             System.exit(0);
@@ -485,6 +515,44 @@ public class Main {
         }
         finally{
             fileInput.close();
+        }
+    }
+    
+    private static void previewCycler(int cycleNumber){
+        if (cycleNumber < 0){
+            if (mapPreviewCounter == 0){
+                mapPreviewCounter = 2;
+            }
+            else{
+                mapPreviewCounter--;
+            }
+        }
+        else if (cycleNumber > 0){
+            if (mapPreviewCounter == 2){
+                mapPreviewCounter = 0;
+            }
+            else{
+                mapPreviewCounter++;
+            }
+        }
+        
+        mapPreview.remove(mapPreviewLabel);
+        mapPreviewImage.setIcon(new ImageIcon(mapImagePath[mapPreviewCounter]));
+        mapPreviewImage.setVisible(true);
+        mapPreview.add(mapPreviewImage);
+        
+        // Linking map description to the map that is being previewed
+        if (mapPreviewCounter == 0){
+            mapDescription.setText("This is the first map.");
+        }
+        else if (mapPreviewCounter == 1){
+            mapDescription.setText("This is the second map.");
+        }
+        else if (mapPreviewCounter == 2){
+            mapDescription.setText("This is the third map.");
+        }
+        else{
+            mapDescription.setText("Error encountered.");
         }
     }
     
@@ -526,7 +594,4 @@ public class Main {
         livesLeft.setText("Lives: " + getLives());
         currentScore.setText("Score: " + getScore());   
     }
-    
-
-
 }
