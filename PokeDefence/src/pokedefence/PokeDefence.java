@@ -21,7 +21,7 @@ import javax.imageio.*;
  * @author Justin
  */
 public class PokeDefence {
-
+    //Random commentttt
     /********************Variables***********************/
     private static int score=0;
     private static int lives = 10;
