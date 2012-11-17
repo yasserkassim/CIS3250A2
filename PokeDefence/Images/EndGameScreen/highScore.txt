@@ -1,5 +1,5 @@
 Haru 10000
-Rober 8000
+Robert 8000
 Jerry 6000
 Alex 4000
 Sam 2000
