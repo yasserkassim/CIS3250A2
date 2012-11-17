@@ -283,7 +283,6 @@ public class PokeDefence {
     
     private static void createInfoWindow(){
         mainWindow.dispose();
-        //String[] maps = {"./Pictures/ipad.jpeg"};
 
         gameInfoWindow.setLayout(null);
         gameInfoWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
