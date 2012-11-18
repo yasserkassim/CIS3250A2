@@ -27,7 +27,7 @@ public class PokeDefence {
     private static String[][] mapLayout = new String[11][26];
     private static int count=0;
     private static ArrayList<JPanel> battleField = new ArrayList<>();
-    private static int winCondition=1;
+    private static int winCondition=0;
     private static int mapPreviewCounter=0;
     private static JLabel mapPreviewImage = new JLabel();
     private static String[] mapImagePath = {"./Images/Maps/map1.png", "./Images/Maps/map2.png", "./Images/Maps/map3.png"};
@@ -36,10 +36,9 @@ public class PokeDefence {
     
     /****************Main Window Items*******************/
     private static JFrame mainWindow = new JFrame("Tower Defense");
-    private static JPanel mainTitle = new JPanel();
-    private static JPanel towerImage = new JPanel();
-    private static JLabel towerImageIcon = new JLabel();
-    private static JPanel enemyImage = new JPanel();
+    private static JLabel mainTitle = new JLabel();
+    private static JLabel towerImage = new JLabel();
+    private static JLabel enemyImage = new JLabel();
     private static JLabel enemyImageIcon = new JLabel();
     private static JButton playButton = new JButton("Play");
     private static JButton infoButton = new JButton("Info");
@@ -123,31 +122,29 @@ public class PokeDefence {
         
         //Panel
         mainTitle.setSize(400,150);
-        mainTitle.setLocation(300,20);
+        mainTitle.setLocation(275,20);
         mainTitle.setVisible(true);
-        mainTitle.setBackground(Color.black);
-        mainTitle.setBorder(BorderFactory.createLineBorder(Color.blue, 3));
+        mainTitle.setIcon(new ImageIcon("./Images/MainMenu/Logo2.gif"));
         mainWindow.add(mainTitle);
         
         //Panel
-        towerImage.setSize(200,400);
-        towerImage.setLocation(40,75);
-        //towerImageIcon.setIcon(new ImageIcon("./Images/MainMenu/tower.jpg"));
-        //towerImage.add(towerImageIcon);
-        towerImage.setBackground(Color.blue);
+        towerImage.setSize(250,400);
+        towerImage.setLocation(20,85);
+        towerImage.setIcon(new ImageIcon("./Images/MainMenu/tower.gif"));
         mainWindow.add(towerImage);
         
         //Panel
-        enemyImage.setSize(200,400);
-        enemyImage.setLocation(740,75);
-        //enemyImageIcon.setIcon(new ImageIcon("./Images/MainMenu/enemy.jpg"));
+        enemyImage.setSize(296,330);
+        enemyImage.setLocation(700,165);
+        enemyImage.setIcon(new ImageIcon("./Images/MainMenu/enemy.gif"));
         //enemyImage.add(enemyImageIcon);
-        enemyImage.setBackground(Color.red);
+        //enemyImage.setBackground(Color.red);
         mainWindow.add(enemyImage);
+        mainWindow.repaint();
         
         //Button
         playButton.setSize(100,40);
-        playButton.setLocation(450,250);
+        playButton.setLocation(420,250);
         playButton.setVisible(true);
         Action changeWindow = new AbstractAction("") {
             public void actionPerformed(ActionEvent e) {
@@ -159,7 +156,7 @@ public class PokeDefence {
         
         //Button
         infoButton.setSize(100,40);
-        infoButton.setLocation(450,300);
+        infoButton.setLocation(420,300);
         infoButton.setVisible(true);
         Action gotoInfoWindow = new AbstractAction(""){
             public void actionPerformed(ActionEvent e){
@@ -171,7 +168,7 @@ public class PokeDefence {
         
         //Button
         quitButton.setSize(100,40);
-        quitButton.setLocation(450,350);
+        quitButton.setLocation(420,350);
         quitButton.setVisible(true);
         Action closeProgram = new AbstractAction("") {
             public void actionPerformed(ActionEvent e) {
@@ -180,6 +177,8 @@ public class PokeDefence {
         };
         quitButton.addActionListener(closeProgram);
         mainWindow.add(quitButton);
+        
+        mainWindow.repaint();
         
     }
     
@@ -384,8 +383,10 @@ public class PokeDefence {
                 gridWindow.add(battleField.get(count));
                 
                 if (mapLayout[j][i].equals("0")) {
+                    JLabel number = new JLabel();
                     battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                     battleField.get(count).setBackground(Color.blue);
+                    battleField.get(count).add(number);
                     count++;
                 } 
                 else if (mapLayout[j][i].equals("1")) {
@@ -484,6 +485,10 @@ public class PokeDefence {
                             if (mapLayout[j][i].equals("0")) {
                                 battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
+                                JLabel number = new JLabel();
+                                number.setText(Integer.toString(count));
+                                number.setVisible(true);
+                                battleField.get(count).add(number);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
@@ -501,8 +506,12 @@ public class PokeDefence {
                     for (int i = 0; i < 26; i++) {
                         for (int j = 0; j < 11; j++) {
                             if (mapLayout[j][i].equals("0")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.blue);
+                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                JLabel number = new JLabel();
+                                number.setText(Integer.toString(count));
+                                number.setVisible(true);
+                                battleField.get(count).add(number);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
@@ -535,8 +544,12 @@ public class PokeDefence {
                     for (int i = 0; i < 26; i++) {
                         for (int j = 0; j < 11; j++) {
                             if (mapLayout[j][i].equals("0")) {
+                                JLabel number = new JLabel();
                                 battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
+                                number.setText(Integer.toString(count));
+                                number.setVisible(true);
+                                battleField.get(count).add(number);
                                 count++;
                             }
                             else if (mapLayout[j][i].equals("1")) {
@@ -601,7 +614,7 @@ public class PokeDefence {
         if(winCondition == 1){
             System.out.println("You Won");
             //Win Label
-            winLabel.setIcon(new ImageIcon("./Images/EndGameScreen/win.png"));
+            winLabel.setIcon(new ImageIcon("./Images/EndGameScreen/win.jpg"));
             winLabel.setVisible(true);
             winOrLose.add(winLabel);
             endGameScreen.add(winOrLose);
@@ -609,7 +622,7 @@ public class PokeDefence {
         else if(winCondition != 1){
             System.out.println("You lost");
             //Lose Label
-            loseLabel.setIcon(new ImageIcon("./Images/EndGameScreen/lose.png"));
+            loseLabel.setIcon(new ImageIcon("./Images/EndGameScreen/lose.jpg"));
             loseLabel.setVisible(true);
             winOrLose.add(loseLabel);
             endGameScreen.add(winOrLose);
