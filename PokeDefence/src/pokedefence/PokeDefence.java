@@ -107,18 +107,24 @@ public class PokeDefence {
         //createMainWindow();
         //createInfoWindow();
         //createGameOptionsWindow();
-        //createInGameWindow();
-        createEndGameWindow();
+        createInGameWindow();
+        //createEndGameWindow();
         //readMapIn();
         //getHighScores();
         //writeNewHighScores();
         
+        Iterator itr = battleField.iterator();
+        while(itr.hasNext()){
+            System.out.println(itr.next());
+        }
         
-        //Is it field 1 HP, 2 Damage, 3 Price, 4 Range or something? It's what i assumed
+        
+        //Damage, range, cost, fire speed
         towers.add("25, 6, 150, 2"); //index 0
         towers.add("55, 4, 300, 1");
         towers.add("80, 3, 500, 4");
 
+        //Health, Speed, Defence, Gold
         mobs.add("50, 2, 5, 25");
         mobs.add("25, 4, 2, 15");
         mobs.add("150, 1, 10, 75");
@@ -126,10 +132,10 @@ public class PokeDefence {
         mobs.add("2000, 1, 50, 2000");
         
         int x = 0;
-        towers.set(x, towerUpgrade(towers.get(x)));
+        //towers.set(x, towerUpgrade(towers.get(x)));
         
     }
-    
+    /*
     public static String towerUpgrade(String currentTower){
 
         String selectedTower = null;
@@ -164,7 +170,7 @@ public class PokeDefence {
 
         return currentTower;
     }
-
+    */
     //I took this as a method to get the sell price of a tower where after it is called then you can delete said tower
     public static int towerSell(String currentTower){
         //Would use it like setGold(towerSell(towers.get(x))) then remove the tower
@@ -173,7 +179,7 @@ public class PokeDefence {
         //Splits the tower string into tokens to get the value of the tower
         Tokens = currentTower.split(", ");
         //Gets the sell value of the tower
-        sellPrice = Integer.parseInt(Tokens[2]);
+        sellPrice = Integer.parseInt(Tokens[1]);
         sellPrice = (int) (sellPrice * 0.5);
         
 
@@ -258,8 +264,6 @@ public class PokeDefence {
     public static void collision(){
         
     }
-    
-    
     
     private static void createMainWindow(){
         endGameScreen.dispose();
@@ -542,7 +546,10 @@ public class PokeDefence {
                 if (mapLayout[j][i].equals("0")) {
                     JLabel number = new JLabel();
                     battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-                    battleField.get(count).setBackground(Color.blue);
+                    battleField.get(count).setBackground(Color.blue); 
+                    //JLabel nums = new JLabel();
+                    //nums.setText(Integer.toString(count));
+                    //battleField.get(count).add(nums);
                     battleField.get(count).add(number);
                     count++;
                 } 
@@ -589,6 +596,10 @@ public class PokeDefence {
                             if (mapLayout[j][i].equals("0")) {
                                 battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
+                                //JLabel image = new JLabel();
+                                //image.setIcon(new ImageIcon("File Path here"));
+                                //image.setVisible(true);
+                                //battleField.get(count).add(image);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
