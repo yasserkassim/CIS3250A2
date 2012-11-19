@@ -522,6 +522,18 @@ public class PokeDefence {
                     enemyPath.add(count);
                     count++;
                 }
+				else if (mapLayout[j][i].equals("S")) {
+                    //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                    battleField.get(count).setBackground(Color.black);
+                    enemyPath.add(count);
+                    count++;
+                }
+				else if (mapLayout[j][i].equals("F")) {
+                    //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                    battleField.get(count).setBackground(Color.red);
+                    enemyPath.add(count);
+                    count++;
+                }
             }
         }
         gridWindow.repaint();
@@ -570,6 +582,9 @@ public class PokeDefence {
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
+							else{
+								count++;
+							}
                         }
                     }
                     gridWindow.repaint();
@@ -589,6 +604,9 @@ public class PokeDefence {
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
+							else{
+								count++;
+							}
                         }
                     }
                     towerTwo.setEnabled(true);
@@ -1059,7 +1077,7 @@ public class PokeDefence {
 
     public static void gameLoop() {
         long beginTime, timeTaken, timeLeft;
-        int tick = 0;
+        int tick = -1;
 
         //This while loop breaks the game
         while (true) {
