@@ -17,7 +17,7 @@ import javax.swing.*;
  */
 public class PokeDefence {
     /********************Variables***********************/
-    private static int score=12345;
+    private static int score=0;
     private static int lives = 10;
     private static int gold = 0;
     private static int totalGold=0;
@@ -487,10 +487,6 @@ public class PokeDefence {
                             if (mapLayout[j][i].equals("0")) {
                                 battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
-                                JLabel number = new JLabel();
-                                number.setText(Integer.toString(count));
-                                number.setVisible(true);
-                                battleField.get(count).add(number);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
@@ -510,10 +506,6 @@ public class PokeDefence {
                             if (mapLayout[j][i].equals("0")) {
                                 battleField.get(count).setBackground(Color.blue);
                                 battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-                                JLabel number = new JLabel();
-                                number.setText(Integer.toString(count));
-                                number.setVisible(true);
-                                battleField.get(count).add(number);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
@@ -549,9 +541,6 @@ public class PokeDefence {
                                 JLabel number = new JLabel();
                                 battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
-                                number.setText(Integer.toString(count));
-                                number.setVisible(true);
-                                battleField.get(count).add(number);
                                 count++;
                             }
                             else if (mapLayout[j][i].equals("1")) {
