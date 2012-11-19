@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package pokedefence;
 
 
@@ -17,7 +13,7 @@ import javax.swing.*;
  */
 public class PokeDefence {
     /********************Variables***********************/
-    private static int score=0;
+    private static int score=12345;
     private static int lives = 10;
     private static int gold = 0;
     private static int totalGold=0;
@@ -108,8 +104,8 @@ public class PokeDefence {
         //createMainWindow();
         //createInfoWindow();
         //createGameOptionsWindow();
-        createInGameWindow();
-        //createEndGameWindow();
+        //createInGameWindow();
+        createEndGameWindow();
         //readMapIn();
         //getHighScores();
         //writeNewHighScores();
@@ -372,7 +368,7 @@ public class PokeDefence {
         mapDescription.setEditable(false);
         mapDescription.setLineWrap(true);
         mapDescription.setWrapStyleWord(true);
-        mapDescription.setText("This is a test sting which is used in the text area to provide te details about the map that will be displayed"
+        mapDescription.setText("This is a test string which is used in the text area to provide the details about the map that will be displayed"
                 + "during the game selection process.");
         mapDescription.setVisible(true);
         gameOptionsWindow.add(mapDescription);
@@ -777,12 +773,17 @@ public class PokeDefence {
         //Button
         quitButton.setSize(250,50);
         quitButton.setLocation(350,450);
+        Action exitGame = new AbstractAction("") {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        };
+        quitButton.addActionListener(exitGame);
         endGameScreen.add(quitButton);
         endGameScreen.repaint();   
         
         getHighScores();
         compareScores();
-        writeNewHighScores();
     }
     
     private static void readMapIn() throws IOException{
@@ -837,13 +838,13 @@ public class PokeDefence {
         
         // Linking map description to the map that is being previewed
         if (mapPreviewCounter == 0){
-            mapDescription.setText("This is the first map.");
+            mapDescription.setText("This map has a medium diffculty because it has a few turns and provides a slightly easier game than map two.");
         }
         else if (mapPreviewCounter == 1){
-            mapDescription.setText("This is the second map.");
+            mapDescription.setText("This map is the hardest map because it is a direct path from where the enemies spawn to where your base is.");
         }
         else if (mapPreviewCounter == 2){
-            mapDescription.setText("This is the third map.");
+            mapDescription.setText("This map is the easiest of the three maps due to having a longer path with more turns in it.");
         }
         else{
             mapDescription.setText("Error encountered.");
@@ -851,12 +852,12 @@ public class PokeDefence {
     }
     
     private static void writeNewHighScores(){
-        //Write scores from array into text file, save in location ./EndGameScreen/highScore.txt
-        
+               
         PrintWriter outputStream = null;
         try {
             outputStream = new PrintWriter(new FileOutputStream("./Images/EndGameScreen/highScore.txt"));
             for(int i=0;i<highScoreList.size();i++){
+                System.out.println(highScoreList.get(i));
                 outputStream.println(highScoreList.get(i));
             }
         } 
@@ -981,6 +982,7 @@ public class PokeDefence {
                     if(getScore() > (Integer.parseInt(temp[1]))){
                         highScoreList.add(i,playerName + " " + getScore());
                         highScoreList.remove(highScoreList.size()-1);
+                        writeNewHighScores();
                         break;
                     }
                 }
