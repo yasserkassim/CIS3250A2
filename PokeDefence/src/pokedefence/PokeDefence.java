@@ -14,7 +14,7 @@ import javax.swing.*;
 public class PokeDefence {
 	
     /********************Variables***********************/
-    private static int score=12345;
+    private static int score=0;
     private static int lives = 10;
     private static int gold = 0;
     private static int totalGold=0;
@@ -23,6 +23,8 @@ public class PokeDefence {
     private static int mouseClickCountThree=0;
     private static String[][] mapLayout = new String[11][26];
     private static int count=0;
+    private static int tick=0;
+    private static int index = randIndex();
     private static String playerName="";
     private static int winCondition=0;
     private static int mapPreviewCounter=0;
@@ -482,13 +484,13 @@ public class PokeDefence {
                     enemyPath.add(count);
                     count++;
                 }
-				else if (mapLayout[j][i].equals("S")) {
+                else if (mapLayout[j][i].equals("S")) {
                     //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                     battleField.get(count).setBackground(Color.black);
                     enemyPath.add(count);
                     count++;
                 }
-				else if (mapLayout[j][i].equals("F")) {
+                else if (mapLayout[j][i].equals("F")) {
                     //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                     battleField.get(count).setBackground(Color.red);
                     enemyPath.add(count);
@@ -497,9 +499,6 @@ public class PokeDefence {
             }
         }
         
-        for(int i=0;i<enemyPath.size();i++){
-            System.out.println(enemyPath.get(i));
-        }
         gridWindow.repaint();
         //Button
         //pauseGame.setSize(50,50);
@@ -872,7 +871,6 @@ public class PokeDefence {
         try {
             outputStream = new PrintWriter(new FileOutputStream("./Images/EndGameScreen/highScore.txt"));
             for(int i=0;i<highScoreList.size();i++){
-                System.out.println(highScoreList.get(i));
                 outputStream.println(highScoreList.get(i));
             }
         } 
@@ -1016,7 +1014,7 @@ public class PokeDefence {
         return score;
     }
 
-    public void setScore(int newscore) {
+    public static void setScore(int newscore) {
         score += newscore;
     }
 
@@ -1024,7 +1022,7 @@ public class PokeDefence {
         return lives;
     }
 
-    public void setLives(int newlives) {
+    public static void setLives(int newlives) {
         lives += newlives;
     }
 
@@ -1032,7 +1030,7 @@ public class PokeDefence {
         return gold;
     }
 
-    public void setGold(int newgold) {
+    public static void setGold(int newgold) {
         gold += newgold;
     }
 
@@ -1065,12 +1063,11 @@ public class PokeDefence {
 
     public static void gameLoop() {
         long beginTime, timeTaken, timeLeft;
-        int tick = 0;
-        int index = randIndex();
+        
         //This while loop breaks the game
         while (true) {
 
-            gameUpdate(tick, index);
+            gameUpdate();
             tick++;
 
             try {
@@ -1082,53 +1079,57 @@ public class PokeDefence {
         }
     }
 
-    public static void gameUpdate(int tick, int index) {
-        System.out.println("Game loop ticking " + tick + "\n");
+    public static void gameUpdate() {
         int MAX_TICK=0;
         if(mapPreviewCounter == 0){
-            MAX_TICK = 30;
-            if(tick == MAX_TICK){
-                System.out.println("map 1, if " + index);
+            MAX_TICK = 31;
+            if(tick >= MAX_TICK){
+                index = randIndex();
                 tick = 0;
-                moveEnemy(tick, index);
+                moveEnemy(index);
             }
             else{
-                System.out.println("map 1, else " + index);
-                moveEnemy(tick, index);
+                moveEnemy(index);
             }
         }
         else if(mapPreviewCounter == 1){
             MAX_TICK = 24;
-            if(tick == MAX_TICK){
+            if(tick >= MAX_TICK){
+                index = randIndex();
                 tick = 0;
-                moveEnemy(tick, index);
-                System.out.println("map 2, if " + index);
+                moveEnemy(index);
             }
             else{
-                System.out.println("map 2, else " + index);
-                moveEnemy(tick, index);
+                moveEnemy(index);
             }
         }
         else if(mapPreviewCounter == 2){
             MAX_TICK = 33;
-            if(tick == MAX_TICK){
+            if(tick >= MAX_TICK){
+                index = randIndex();
                 tick = 0;
-                moveEnemy(tick, index);
-                System.out.println("map 3, if " + index);
+                moveEnemy(index);
             }
             else{
-                moveEnemy(tick, index);
-                System.out.println("map 3, else " + index);
+                moveEnemy(index);
             }
         }
-        if(tick == MAX_TICK){
+        /*if(tick == MAX_TICK){
             index = randIndex();
             System.out.println(index);
-        }
+        }*/
     }
     
-    public static void moveEnemy(int tick, int index){
-        System.out.println(index);
+    public static void moveEnemy(int index){
+        
+        System.out.println(enemyPath.get(enemyPath.size()-1));
+        if(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1))){
+            System.out.println("Got here");
+            setLives(-1);
+            updateStats();
+        }
+        System.out.println(getLives());
+        
         String[] enemies = {"./Images/Enemy/mew.png", "./Images/Enemy/eevee.png", "./Images/Enemy/mewtwo.png", "./Images/Enemy/garydos.png", "./Images/Enemy/rattata.png"};
         image.setVisible(false);
         battleField.get(enemyPath.get(tick)).add(image);
