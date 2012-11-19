@@ -575,10 +575,6 @@ public class PokeDefence {
                             if (mapLayout[j][i].equals("0")) {
                                 //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
-                                //JLabel image = new JLabel();
-                                //battleField.get(count).add(image);
-                                //image.setIcon(new ImageIcon("./Images/Enemy/mew.png"));
-                                //image.setVisible(true);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
@@ -586,9 +582,12 @@ public class PokeDefence {
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
-							else{
-								count++;
-							}
+							else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            }
+							else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
                         }
                     }
                     gridWindow.repaint();
@@ -608,9 +607,12 @@ public class PokeDefence {
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
-							else{
-								count++;
-							}
+							else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            }
+							else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
                         }
                     }
                     towerTwo.setEnabled(true);
@@ -645,6 +647,12 @@ public class PokeDefence {
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
+							else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            }
+							else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
                         }
                     }
                     gridWindow.repaint();
@@ -662,6 +670,12 @@ public class PokeDefence {
                             else if (mapLayout[j][i].equals("1")) {
                                 //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.gray);
+                                count++;
+                            }
+							else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            }
+							else if (mapLayout[j][i].equals("F")) {
                                 count++;
                             }
                         }
@@ -699,6 +713,12 @@ public class PokeDefence {
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
+							else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            }
+							else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
                         }
                     }
                     gridWindow.repaint();
@@ -716,6 +736,12 @@ public class PokeDefence {
                             else if (mapLayout[j][i].equals("1")) {
                                 //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.gray);
+                                count++;
+                            }
+							else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            }
+							else if (mapLayout[j][i].equals("F")) {
                                 count++;
                             }
                         }
