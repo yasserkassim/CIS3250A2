@@ -92,8 +92,17 @@ public class PokeDefence {
     private static ArrayList<String> highScoreList = new ArrayList();
     private static JButton returnToMenu = new JButton("Return to Menu");
     //Use quit button predefined above in this window.
-    
+
     /**********End of End-Game Window Items*************/
+    
+    /****************Mobs/Towers************************/
+    private static ArrayList<String> mobs = new ArrayList<>();
+    private static ArrayList<String> towers = new ArrayList<>();
+    /*************End Mobs/Towers***********************/
+    
+    
+    
+    
     public static void  main(String[] args) throws IOException{
         //createMainWindow();
         //createInfoWindow();
@@ -104,7 +113,153 @@ public class PokeDefence {
         //getHighScores();
         //writeNewHighScores();
         
+        
+        //Is it field 1 HP, 2 Damage, 3 Price, 4 Range or something? It's what i assumed
+        towers.add("25, 6, 150, 2"); //index 0
+        towers.add("55, 4, 300, 1");
+        towers.add("80, 3, 500, 4");
+
+        mobs.add("50, 2, 5, 25");
+        mobs.add("25, 4, 2, 15");
+        mobs.add("150, 1, 10, 75");
+        mobs.add("500, 2, 15, 200");
+        mobs.add("2000, 1, 50, 2000");
+        
+        int x = 0;
+        towers.set(x, towerUpgrade(towers.get(x)));
+        
     }
+    
+    public static String towerUpgrade(String currentTower){
+
+        String selectedTower = null;
+
+        if(selectedTower.equals("2")){
+            currentTower = ("35, 6, 100, 2");
+        }
+        else if(selectedTower.equals("3")){
+            currentTower = ("60, 6, 200, 2");
+        }
+        else if(selectedTower.equals("4")){
+            //prompt user that they are at max level
+        }
+        else if(selectedTower.equals("5")){
+            currentTower = ("65, 4, 300, 1");
+        }
+        else if(selectedTower.equals("6")){
+            currentTower = ("85, 4, 400, 1");
+        }
+        else if(selectedTower.equals("7")){
+            //prompt user that they are at max level
+        }
+        else if(currentTower.equals("8")){
+            currentTower = ("90, 3, 400, 4");
+        }
+        else if(selectedTower.equals("9")){
+            currentTower = ("100, 3, 600, 4");
+        }
+        else if(selectedTower.equals("a")){
+            //prompt user that they are at max level
+        }
+
+        return currentTower;
+    }
+
+    //I took this as a method to get the sell price of a tower where after it is called then you can delete said tower
+    public static int towerSell(String currentTower){
+        //Would use it like setGold(towerSell(towers.get(x))) then remove the tower
+        String Tokens[];
+        int sellPrice;
+        //Splits the tower string into tokens to get the value of the tower
+        Tokens = currentTower.split(", ");
+        //Gets the sell value of the tower
+        sellPrice = Integer.parseInt(Tokens[2]);
+        sellPrice = (int) (sellPrice * 0.5);
+        
+
+        return sellPrice;
+    }
+    
+    //I took this as a method to deal damage to a mob with a tower by first getting it's damage, then minusing the mobs health by said amount
+    public static String towerShot(String currentTower, String currentMob){
+        String Tokens[];
+        //Splits the tower string into tokens to get the damage of the tower
+        Tokens = currentTower.split(", ");
+        //Gets the damage of the tower
+        int Damage = Integer.parseInt(Tokens[1]);
+        Tokens = currentMob.split(", ");
+        int newHealth = Integer.parseInt(Tokens[0]) - Damage;
+        
+        //Create the new mob string with updated health
+        String updatedMob = "" + newHealth;
+        for (int i = 1; i < Tokens.length;i++){
+            updatedMob = updatedMob + Tokens[i] + ", ";
+        }
+        
+        return updatedMob;
+    }
+
+    //I assume this levels up all the mobs for the new wave?
+    public static String[] mobLevelUp(String[] mobs){
+        String Tokens[];
+        int intVals[] = new int[5];
+        String updatedMob;
+        //Splits the tower string into tokens to get the variables of the mob
+        for(int i = 0; i<mobs.length;i++){
+            Tokens = mobs[i].split(", ");
+            //Change the variables into integers
+            for(int j = 0; j<Tokens.length;j++){
+                intVals[i] = Integer.parseInt(Tokens[i]);
+            }
+            
+            //Level up the variables
+            intVals[0] =+ 15; //Health??
+            intVals[1] =+ 5; //IDK what this variable is
+            intVals[2] =+ 5; //IDK what this variable is
+            intVals[3] =+ 5; //IDK what this variable is
+            
+            //Create new mob strings with updated leveled up variables
+            updatedMob = "";
+            for (int j = 0; j < Tokens.length;j++){
+                updatedMob = updatedMob + intVals[i];
+                if (j != Tokens.length - 1){
+                    updatedMob = updatedMob + ", ";
+                }
+            }
+            //Input new string into array
+            mobs[i] = updatedMob;
+        }
+        
+        
+        return mobs;
+    }
+
+    //Takes in the mob array and checks if any have their HP below 0
+    public static int mobKilled(String[] mob){
+        for(int i = 0;i<mob.length;i++){
+            //Condition that one of the mobs hp is 0 or below
+            int hp;
+            //Changes the mob info from string into an integer value for hp
+            if(mob[i].charAt(1) == ',') {
+                hp = Integer.parseInt("" + mob[i].charAt(0));
+            }
+            else {
+                hp = Integer.parseInt("" + mob[i].charAt(0) + mob[i].charAt(1));
+            }
+            
+            if(hp <= 0){
+                //Returns the mob that is dead
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static void collision(){
+        
+    }
+    
+    
     
     private static void createMainWindow(){
         endGameScreen.dispose();
@@ -730,13 +885,13 @@ public class PokeDefence {
         PrintWriter outputStream = null;
         try {
             outputStream = new PrintWriter(new FileOutputStream("./Images/EndGameScreen/highScore.txt"));
+            for(int i=0;i<highScoreList.size();i++){
+                outputStream.println(highScoreList.get(i));
+            }
         } 
         catch (FileNotFoundException e) {
             System.out.println("Error opening the file highScore.txt");
             System.exit(0);
-        }
-        for(int i=0;i<highScoreList.size();i++){
-            outputStream.println(highScoreList.get(i));
         }
         outputStream.close();
 
@@ -811,7 +966,6 @@ public class PokeDefence {
         
         endGameScreen.repaint();
     }
-    
     
     private static void getPlayerName(){
         final JFrame playerNameWindow = new JFrame();
