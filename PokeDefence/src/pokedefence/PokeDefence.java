@@ -12,6 +12,12 @@ import javax.swing.*;
  * @author Justin
  */
 public class PokeDefence {
+    
+    /********************Static Variables***********************/
+    static final int UPDATE_INTERVAL = 1000000000; //Nanoseconds 1.000.000.000, 1 update per second.
+    /****************End of Static Variables********************/
+
+    
     /********************Variables***********************/
     private static int score=12345;
     private static int lives = 10;
@@ -101,11 +107,11 @@ public class PokeDefence {
     
     
     public static void  main(String[] args) throws IOException{
-        //createMainWindow();
+        createMainWindow();
         //createInfoWindow();
         //createGameOptionsWindow();
         //createInGameWindow();
-        createEndGameWindow();
+        //createEndGameWindow();
         //readMapIn();
         //getHighScores();
         //writeNewHighScores();
@@ -391,6 +397,7 @@ public class PokeDefence {
             public void actionPerformed(ActionEvent e) {
                 try {
                     createInGameWindow();
+                    gameStart();
                 } catch (IOException ex) {
                     System.exit(0);
                 }
@@ -997,6 +1004,8 @@ public class PokeDefence {
         
     }
     
+    
+    
     public static int getScore() {
         return score;
     }
@@ -1033,5 +1042,53 @@ public class PokeDefence {
         currentCurrency.setText("Gold: " + getGold());
         livesLeft.setText("Lives: " + getLives());
         currentScore.setText("Score: " + getScore());   
+    }
+    
+    
+    public static void gameStart() {
+
+        Thread gameThread = new Thread() {
+            // Override run() to provide the running behavior of this thread.
+            @Override
+            public void run() {
+                gameLoop();
+            }
+        };
+        gameThread.start();
+    }
+
+    public static void gameLoop() {
+        long beginTime, timeTaken, timeLeft;
+        int tick = 0;
+
+        //This while loop breaks the game
+        while (true) {
+            beginTime = System.nanoTime();
+
+            tick++;
+            gameUpdate(tick);
+
+            timeTaken = System.nanoTime() - beginTime;
+            timeLeft = (UPDATE_INTERVAL - timeTaken) / 1000000; //Deviding by 1 million to get it into milliseconds for the pause thread method.
+
+            if (timeLeft < 10) {// Setting a minimum time
+                timeLeft = 10;
+            }
+            try {
+                Thread.sleep(timeLeft);
+            } 
+            catch (InterruptedException ex) {
+            }
+
+        }
+    }
+
+    public static void gameUpdate(int tick) {
+        System.out.println("Game loop ticking " + tick + "\n");
+
+        JLabel image = new JLabel();
+        battleField.get(enemyPath.get(tick)).add(image);
+        image.setIcon(new ImageIcon("./Images/Enemy/mew.png"));
+        image.setVisible(true);
     }
 }
