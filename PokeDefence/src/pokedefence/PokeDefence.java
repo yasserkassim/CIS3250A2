@@ -101,6 +101,7 @@ public class PokeDefence {
         //createEndGameWindow();
         //readMapIn();
         //getHighScores();
+        //writeNewHighScores();
         
     }
     
@@ -762,8 +763,21 @@ public class PokeDefence {
     }
     
     private static void writeNewHighScores(){
-        //Write scores from array into text file, save in location ./Highscores/highscores.txt
+        //Write scores from array into text file, save in location ./EndGameScreen/highScore.txt
         
+        PrintWriter outputStream = null;
+        try {
+            outputStream = new PrintWriter(new FileOutputStream("./Images/EndGameScreen/highScore.txt"));
+        } 
+        catch (FileNotFoundException e) {
+            System.out.println("Error opening the file highScore.txt");
+            System.exit(0);
+        }
+        for(int i=0;i<highScoreList.size();i++){
+            outputStream.println(highScoreList.get(i) + "\n");
+        }
+        outputStream.close();
+
     }
     
     private static void getHighScores(){
