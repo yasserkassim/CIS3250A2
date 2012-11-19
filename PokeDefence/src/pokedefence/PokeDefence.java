@@ -556,7 +556,12 @@ public class PokeDefence {
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < 275; i++) {
 					if ((JButton) e.getSource() == tower1.get(i)) {
-						battleField.get(i).setBackground(Color.ORANGE);
+						JLabel image = new JLabel();
+						image.setIcon(new ImageIcon("./Images/Towers/archerTower.jpg"));
+						battleField.get(i).add(image);
+						
+						//battleField.get(i).setBackground(Color.ORANGE);
+						
 						tower1.get(i).setEnabled(false);
 						tower1.get(i).setVisible(false);
 						int x = i / 11;
@@ -659,7 +664,10 @@ public class PokeDefence {
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < 275; i++) {
 					if ((JButton) e.getSource() == tower2.get(i)) {
-						battleField.get(i).setBackground(Color.PINK);
+						JLabel image = new JLabel();
+						image.setIcon(new ImageIcon("./Images/Towers/cannonTower.jpg"));
+						battleField.get(i).add(image);
+						//battleField.get(i).setBackground(Color.PINK);
 						tower2.get(i).setEnabled(false);
 						tower2.get(i).setVisible(false);
 						int x = i / 11;
@@ -755,7 +763,10 @@ public class PokeDefence {
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < 275; i++) {
 					if ((JButton) e.getSource() == tower3.get(i)) {
-						battleField.get(i).setBackground(Color.BLACK);
+						JLabel image = new JLabel();
+						image.setIcon(new ImageIcon("./Images/Towers/mageTower.png"));
+						battleField.get(i).add(image);
+						//battleField.get(i).setBackground(Color.BLACK);
 						tower3.get(i).setEnabled(false);
 						tower3.get(i).setVisible(false);
 						int x = i / 11;
