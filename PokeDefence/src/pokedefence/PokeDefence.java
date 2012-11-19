@@ -27,7 +27,6 @@ public class PokeDefence {
     private static String[][] mapLayout = new String[11][26];
     private static int count=0;
     private static String playerName="";
-    private static ArrayList<JPanel> battleField = new ArrayList<>();
     private static int winCondition=0;
     private static int mapPreviewCounter=0;
     private static JLabel mapPreviewImage = new JLabel();
@@ -71,6 +70,8 @@ public class PokeDefence {
     private static JButton towerTwo = new JButton("Tower Two");
     private static JButton towerThree = new JButton("Tower Three");
     private static JPanel topBorder = new JPanel();
+    private static ArrayList<JPanel> battleField = new ArrayList<>();
+    private static ArrayList<Integer> enemyPath = new ArrayList<>();
     /**********End of In-Game Window Items**************/
     
     
@@ -112,11 +113,7 @@ public class PokeDefence {
         //readMapIn();
         //getHighScores();
         //writeNewHighScores();
-        
-        Iterator itr = battleField.iterator();
-        while(itr.hasNext()){
-            System.out.println(itr.next());
-        }
+
         
         
         //Damage, range, cost, fire speed
@@ -192,7 +189,7 @@ public class PokeDefence {
         //Splits the tower string into tokens to get the damage of the tower
         Tokens = currentTower.split(", ");
         //Gets the damage of the tower
-        int Damage = Integer.parseInt(Tokens[1]);
+        int Damage = Integer.parseInt(Tokens[0]);
         Tokens = currentMob.split(", ");
         int newHealth = Integer.parseInt(Tokens[0]) - Damage;
         
@@ -205,41 +202,7 @@ public class PokeDefence {
         return updatedMob;
     }
 
-    //I assume this levels up all the mobs for the new wave?
-    public static String[] mobLevelUp(String[] mobs){
-        String Tokens[];
-        int intVals[] = new int[5];
-        String updatedMob;
-        //Splits the tower string into tokens to get the variables of the mob
-        for(int i = 0; i<mobs.length;i++){
-            Tokens = mobs[i].split(", ");
-            //Change the variables into integers
-            for(int j = 0; j<Tokens.length;j++){
-                intVals[i] = Integer.parseInt(Tokens[i]);
-            }
-            
-            //Level up the variables
-            intVals[0] =+ 15; //Health??
-            intVals[1] =+ 5; //IDK what this variable is
-            intVals[2] =+ 5; //IDK what this variable is
-            intVals[3] =+ 5; //IDK what this variable is
-            
-            //Create new mob strings with updated leveled up variables
-            updatedMob = "";
-            for (int j = 0; j < Tokens.length;j++){
-                updatedMob = updatedMob + intVals[i];
-                if (j != Tokens.length - 1){
-                    updatedMob = updatedMob + ", ";
-                }
-            }
-            //Input new string into array
-            mobs[i] = updatedMob;
-        }
-        
-        
-        return mobs;
-    }
-
+    
     //Takes in the mob array and checks if any have their HP below 0
     public static int mobKilled(String[] mob){
         for(int i = 0;i<mob.length;i++){
@@ -545,17 +508,15 @@ public class PokeDefence {
                 
                 if (mapLayout[j][i].equals("0")) {
                     JLabel number = new JLabel();
-                    battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                    //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                     battleField.get(count).setBackground(Color.blue); 
-                    //JLabel nums = new JLabel();
-                    //nums.setText(Integer.toString(count));
-                    //battleField.get(count).add(nums);
                     battleField.get(count).add(number);
                     count++;
                 } 
                 else if (mapLayout[j][i].equals("1")) {
-                    battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                    //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                     battleField.get(count).setBackground(Color.gray);
+                    enemyPath.add(count);
                     count++;
                 }
             }
@@ -565,7 +526,6 @@ public class PokeDefence {
         //pauseGame.setSize(50,50);
         //pauseGame.setLocation(950,0);
         //gridWindow.add(pauseGame);
-
 
         //Panel
         currentEnemies.setSize(200,72);
@@ -594,16 +554,16 @@ public class PokeDefence {
                     for (int i = 0; i < 26; i++) {
                         for (int j = 0; j < 11; j++) {
                             if (mapLayout[j][i].equals("0")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
                                 //JLabel image = new JLabel();
-                                //image.setIcon(new ImageIcon("File Path here"));
-                                //image.setVisible(true);
                                 //battleField.get(count).add(image);
+                                //image.setIcon(new ImageIcon("./Images/Enemy/mew.png"));
+                                //image.setVisible(true);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
@@ -617,12 +577,12 @@ public class PokeDefence {
                     for (int i = 0; i < 26; i++) {
                         for (int j = 0; j < 11; j++) {
                             if (mapLayout[j][i].equals("0")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.blue);
                                 count++;
                             }
                             else if (mapLayout[j][i].equals("1")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
@@ -651,12 +611,12 @@ public class PokeDefence {
                     for (int i = 0; i < 26; i++) {
                         for (int j = 0; j < 11; j++) {
                             if (mapLayout[j][i].equals("0")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
@@ -671,11 +631,11 @@ public class PokeDefence {
                         for (int j = 0; j < 11; j++) {
                             if (mapLayout[j][i].equals("0")) {
                                 battleField.get(count).setBackground(Color.blue);
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
@@ -705,12 +665,12 @@ public class PokeDefence {
                         for (int j = 0; j < 11; j++) {
                             if (mapLayout[j][i].equals("0")) {
                                 JLabel number = new JLabel();
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.GREEN);
                                 count++;
                             }
                             else if (mapLayout[j][i].equals("1")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
@@ -724,12 +684,12 @@ public class PokeDefence {
                     for (int i = 0; i < 26; i++) {
                         for (int j = 0; j < 11; j++) {
                             if (mapLayout[j][i].equals("0")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.blue);
                                 count++;
                             } 
                             else if (mapLayout[j][i].equals("1")) {
-                                battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                                 battleField.get(count).setBackground(Color.gray);
                                 count++;
                             }
