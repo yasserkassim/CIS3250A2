@@ -17,7 +17,7 @@ import javax.swing.*;
  */
 public class PokeDefence {
     /********************Variables***********************/
-    private static int score=0;
+    private static int score=12345;
     private static int lives = 10;
     private static int gold = 0;
     private static int totalGold=0;
@@ -26,6 +26,7 @@ public class PokeDefence {
     private static int mouseClickCountThree=0;
     private static String[][] mapLayout = new String[11][26];
     private static int count=0;
+    private static String playerName="";
     private static ArrayList<JPanel> battleField = new ArrayList<>();
     private static int winCondition=0;
     private static int mapPreviewCounter=0;
@@ -94,11 +95,11 @@ public class PokeDefence {
     
     /**********End of End-Game Window Items*************/
     public static void  main(String[] args) throws IOException{
-        createMainWindow();
+        //createMainWindow();
         //createInfoWindow();
         //createGameOptionsWindow();
         //createInGameWindow();
-        //createEndGameWindow();
+        createEndGameWindow();
         //readMapIn();
         //getHighScores();
         //writeNewHighScores();
@@ -611,9 +612,9 @@ public class PokeDefence {
         winOrLose.setLocation(315,20);
         winOrLose.setVisible(true);
         winOrLose.setBackground(Color.black);
-        System.out.println(winCondition);
+        
         if(winCondition == 1){
-            System.out.println("You Won");
+            //System.out.println("You Won");
             //Win Label
             winLabel.setIcon(new ImageIcon("./Images/EndGameScreen/win.jpg"));
             winLabel.setVisible(true);
@@ -621,7 +622,7 @@ public class PokeDefence {
             endGameScreen.add(winOrLose);
         }
         else if(winCondition != 1){
-            System.out.println("You lost");
+            //System.out.println("You lost");
             //Lose Label
             loseLabel.setIcon(new ImageIcon("./Images/EndGameScreen/lose.jpg"));
             loseLabel.setVisible(true);
@@ -646,31 +647,6 @@ public class PokeDefence {
         gameStats.setFont(new Font("Times New Roman", Font.PLAIN, 30));
         endGameScreen.add(gameStats);
         
-        getHighScores();
-        //Need a compare highscore function to be called here
-        //Compares to see if value is between highscore above and highscore below, and moves the list down, removing the last element
-        //and then adding the new value in the index above the highscore below
-        //Make a pop-up if they have a highscore
-        
-        highScoreBanner.setSize(471,80);
-        highScoreBanner.setLocation(700,75);
-        highScoreBanner.setIcon(new ImageIcon("./Images/EndGameScreen/HighScores.png"));
-        highScoreBanner.setVisible(true);
-        endGameScreen.add(highScoreBanner);
-        
-        //Will go into the highscore compare function
-        highScoreDisplay.setSize(200,300);
-        highScoreDisplay.setLocation(700,150);
-        highScoreDisplay.setBackground(lightGrey);
-        highScoreDisplay.setText("1) " + highScoreList.get(0) 
-                +"\n2) " + highScoreList.get(1)
-                +"\n3) " + highScoreList.get(2)
-                +"\n4) " + highScoreList.get(3)
-                +"\n5) " + highScoreList.get(4));
-        highScoreDisplay.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-        endGameScreen.add(highScoreDisplay);
-        
-        endGameScreen.repaint();
         
         //Button
         returnToMenu.setSize(250,50);
@@ -686,15 +662,12 @@ public class PokeDefence {
         //Button
         quitButton.setSize(250,50);
         quitButton.setLocation(350,450);
-        Action exitGame = new AbstractAction("") {
-            public void actionPerformed(ActionEvent e) {
-                writeNewHighScores();
-                System.exit(0);
-            }
-        };
-        quitButton.addActionListener(exitGame);
         endGameScreen.add(quitButton);
-        endGameScreen.repaint();
+        endGameScreen.repaint();   
+        
+        getHighScores();
+        compareScores();
+        writeNewHighScores();
     }
     
     private static void readMapIn() throws IOException{
@@ -774,7 +747,7 @@ public class PokeDefence {
             System.exit(0);
         }
         for(int i=0;i<highScoreList.size();i++){
-            outputStream.println(highScoreList.get(i) + "\n");
+            outputStream.println(highScoreList.get(i));
         }
         outputStream.close();
 
@@ -802,7 +775,112 @@ public class PokeDefence {
             fileInput.close();
         }
     }
+    
+    private static void compareScores(){
+        endGameScreen.repaint();
+        int check = 0;
+        for(int i=0;i<highScoreList.size();i++){
+            String[] info;
+            String name;
+            int score;
+            
+            info = highScoreList.get(i).split(" ");
+            
+            name = info[0];
+            score = Integer.parseInt(info[1]);
+            
+            if(getScore() > score){
+                getPlayerName();
+                check = 1;
+                break;
+            }
+        }
+        if(check != 1){
+            showHighScore();
+        }
+    }
+    
+    private static void showHighScore(){
+        Color lightGrey = new Color(238,238,238);
+        highScoreBanner.setSize(471,80);
+        highScoreBanner.setLocation(700,75);
+        highScoreBanner.setIcon(new ImageIcon("./Images/EndGameScreen/HighScores.png"));
+        highScoreBanner.setVisible(true);
+        endGameScreen.add(highScoreBanner);
+        
+        //Will go into the highscore compare function
+        highScoreDisplay.setSize(200,300);
+        highScoreDisplay.setLocation(700,150);
+        highScoreDisplay.setBackground(lightGrey);
+        highScoreDisplay.setText("1) " + highScoreList.get(0) 
+                +"\n2) " + highScoreList.get(1)
+                +"\n3) " + highScoreList.get(2)
+                +"\n4) " + highScoreList.get(3)
+                +"\n5) " + highScoreList.get(4));
+        highScoreDisplay.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+        endGameScreen.add(highScoreDisplay);
+        
+        endGameScreen.repaint();
+    }
+    
+    
+    private static void getPlayerName(){
+        final JFrame playerNameWindow = new JFrame();
+        playerNameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        playerNameWindow.pack();
+        playerNameWindow.setLocation(555, 275);
+        playerNameWindow.setSize(250, 250);
+        playerNameWindow.setLayout(null);
+        playerNameWindow.setVisible(true);
+        
+        
+        JLabel enterNamePrompt = new JLabel("You got a high-score!");
+        enterNamePrompt.setSize(250,50);
+        enterNamePrompt.setLocation(60,10);
+        enterNamePrompt.setVisible(true);
+        playerNameWindow.add(enterNamePrompt);
+        
+        final JTextField nameField = new JTextField();
+        nameField.setEditable(true);
+        nameField.setText("Enter your name.");
+        
+        nameField.setSize(160,50);
+        nameField.addMouseListener(new MouseAdapter() {
+        public void mousePressed(MouseEvent e){
+            nameField.setText("");
+        }});
+        
+        nameField.setLocation(playerNameWindow.getWidth()/3-37, (playerNameWindow.getHeight() / 3) - 25);
+        nameField.setVisible(true);
+        playerNameWindow.add(nameField);
+        
+        JButton addName = new JButton("Accept");
+        addName.setLocation((playerNameWindow.getWidth()/3)-10, (playerNameWindow.getHeight() / 3) + 50);
+        addName.setSize(new Dimension(100, 25));
+       
+        Action setName = new AbstractAction("") {
+            public void actionPerformed(ActionEvent e) {
+                playerName = nameField.getText();
+                String[] temp;
+                for(int i=0;i<highScoreList.size();i++){
+                    temp = highScoreList.get(i).split(" ");
+                    if(getScore() > (Integer.parseInt(temp[1]))){
+                        highScoreList.add(i,playerName + " " + getScore());
+                        highScoreList.remove(highScoreList.size()-1);
+                        break;
+                    }
+                }
+                showHighScore();
+                playerNameWindow.dispose();
+            }
+        };
 
+        addName.addActionListener(setName);
+        addName.setVisible(true);
+        playerNameWindow.add(addName);
+        
+    }
+    
     public static int getScore() {
         return score;
     }
