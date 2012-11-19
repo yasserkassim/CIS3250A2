@@ -57,7 +57,7 @@ public class PokeDefence {
     private static JTextArea mapDescription = new JTextArea();
     private static JButton backButton = new JButton("Back");
     private static JButton beginGameButton = new JButton("Begin Game");
-    
+    private static JLabel image = new JLabel();
     /***********End Game Options Window Items*****************/
     
     /*************In-Game Window Items******************/
@@ -535,6 +535,10 @@ public class PokeDefence {
                     count++;
                 }
             }
+        }
+        
+        for(int i=0;i<enemyPath.size();i++){
+            System.out.println(enemyPath.get(i));
         }
         gridWindow.repaint();
         //Button
@@ -1022,8 +1026,6 @@ public class PokeDefence {
         
     }
     
-    
-    
     public static int getScore() {
         return score;
     }
@@ -1103,8 +1105,17 @@ public class PokeDefence {
 
     public static void gameUpdate(int tick) {
         System.out.println("Game loop ticking " + tick + "\n");
-
-        JLabel image = new JLabel();
+        
+        if(mapPreviewCounter == 1){
+            int MAX_TICK = 0;
+        }
+        
+        moveEnemy(tick);
+        
+    }
+    
+    public static void moveEnemy(int tick){
+        image.setVisible(false);
         battleField.get(enemyPath.get(tick)).add(image);
         image.setIcon(new ImageIcon("./Images/Enemy/mew.png"));
         image.setVisible(true);
