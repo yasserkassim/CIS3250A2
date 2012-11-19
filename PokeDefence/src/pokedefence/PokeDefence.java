@@ -497,10 +497,10 @@ public class PokeDefence {
 				tower3.get(count).setEnabled(false);
                 
                 if (mapLayout[j][i].equals("0")) {
-                    JLabel number = new JLabel();
+                    //JLabel number = new JLabel();
                     //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
                     battleField.get(count).setBackground(Color.blue); 
-                    battleField.get(count).add(number);
+                    //battleField.get(count).add(number);
                     count++;
                 } 
                 else if (mapLayout[j][i].equals("1")) {
@@ -517,7 +517,11 @@ public class PokeDefence {
                 }
                 else if (mapLayout[j][i].equals("F")) {
                     //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-                    battleField.get(count).setBackground(Color.red);
+                    //battleField.get(count).setBackground(Color.red);
+                    JLabel image = new JLabel();
+                    image.setIcon(new ImageIcon("./Images/Towers/mainBase.png"));
+                    
+                    battleField.get(count).add(image);
                     enemyPath.add(count);
                     count++;
                 }
@@ -1246,13 +1250,13 @@ public class PokeDefence {
     
     public static void moveEnemy(int index){
         
-        System.out.println(enemyPath.get(enemyPath.size()-1));
+        System.out.println(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1)));
         if(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1))){
             System.out.println("Got here");
             setLives(-1);
             updateStats();
         }
-        System.out.println(getLives());
+        
         
         String[] enemies = {"./Images/Enemy/mew.png", "./Images/Enemy/eevee.png", "./Images/Enemy/mewtwo.png", "./Images/Enemy/garydos.png", "./Images/Enemy/rattata.png"};
         image.setVisible(false);
