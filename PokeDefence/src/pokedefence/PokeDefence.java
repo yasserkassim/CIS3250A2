@@ -12,12 +12,7 @@ import javax.swing.*;
  * @author Justin
  */
 public class PokeDefence {
-    
-    /********************Static Variables***********************/
-    static final int UPDATE_INTERVAL = 1000000000; //Nanoseconds 1.000.000.000, 1 update per second.
-    /****************End of Static Variables********************/
-
-    
+	
     /********************Variables***********************/
     private static int score=12345;
     private static int lives = 10;
@@ -134,42 +129,7 @@ public class PokeDefence {
         //towers.set(x, towerUpgrade(towers.get(x)));
         
     }
-    /*
-    public static String towerUpgrade(String currentTower){
 
-        String selectedTower = null;
-
-        if(selectedTower.equals("2")){
-            currentTower = ("35, 6, 100, 2");
-        }
-        else if(selectedTower.equals("3")){
-            currentTower = ("60, 6, 200, 2");
-        }
-        else if(selectedTower.equals("4")){
-            //prompt user that they are at max level
-        }
-        else if(selectedTower.equals("5")){
-            currentTower = ("65, 4, 300, 1");
-        }
-        else if(selectedTower.equals("6")){
-            currentTower = ("85, 4, 400, 1");
-        }
-        else if(selectedTower.equals("7")){
-            //prompt user that they are at max level
-        }
-        else if(currentTower.equals("8")){
-            currentTower = ("90, 3, 400, 4");
-        }
-        else if(selectedTower.equals("9")){
-            currentTower = ("100, 3, 600, 4");
-        }
-        else if(selectedTower.equals("a")){
-            //prompt user that they are at max level
-        }
-
-        return currentTower;
-    }
-    */
     //I took this as a method to get the sell price of a tower where after it is called then you can delete said tower
     public static int towerSell(String currentTower){
         //Would use it like setGold(towerSell(towers.get(x))) then remove the tower
@@ -1109,19 +1069,12 @@ public class PokeDefence {
 
         //This while loop breaks the game
         while (true) {
-            beginTime = System.nanoTime();
 
             tick++;
             gameUpdate(tick);
 
-            timeTaken = System.nanoTime() - beginTime;
-            timeLeft = (UPDATE_INTERVAL - timeTaken) / 1000000; //Deviding by 1 million to get it into milliseconds for the pause thread method.
-
-            if (timeLeft < 10) {// Setting a minimum time
-                timeLeft = 10;
-            }
             try {
-                Thread.sleep(timeLeft);
+                Thread.sleep(1000);
             } 
             catch (InterruptedException ex) {
             }
