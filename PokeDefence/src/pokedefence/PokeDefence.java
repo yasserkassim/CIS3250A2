@@ -201,7 +201,11 @@ public class PokeDefence {
     public static void collision(){
         
     }
-    
+	/***********************Menus Functions Start Here***********************/
+    /********************************************************************************
+    * createMainWindow
+    * This function creates the Main Menu
+    *******************************************************************************/
     private static void createMainWindow(){
         endGameScreen.dispose();
         gameOptionsWindow.dispose();
@@ -279,7 +283,10 @@ public class PokeDefence {
         mainWindow.repaint();
         
     }
-    
+    /********************************************************************************
+    * createGameOptionsWindow
+    * This function creates the avaliable Map options before starting the game
+    *******************************************************************************/
     private static void createGameOptionsWindow(){
         mainWindow.dispose();
         
@@ -378,7 +385,10 @@ public class PokeDefence {
         beginGameButton.addActionListener(startGame);
         gameOptionsWindow.add(beginGameButton);
     }
-    
+    /********************************************************************************
+    * createInfoWindow
+    * This function creates the information window
+    *******************************************************************************/
     private static void createInfoWindow(){
         mainWindow.dispose();
 
@@ -430,7 +440,10 @@ public class PokeDefence {
         gameInfoWindow.add(backButton);
         gameInfoWindow.repaint();
     }
-    
+    /********************************************************************************
+    * createInGameWindow
+    * This function creates the main map display. The game is displayed on this screen.
+    *******************************************************************************/
     private static void createInGameWindow() throws IOException{
         gameOptionsWindow.dispose();
         readMapIn();
@@ -903,7 +916,11 @@ public class PokeDefence {
         gridWindow.repaint();
         /*____________________________________________________________*/
     }
-    
+     /********************************************************************************
+     * createEndGameWindow
+     * This function creates the screen the player sees after the game is over. It shows the
+     * High Scores.
+     *******************************************************************************/
     private static void createEndGameWindow(){
         gridWindow.dispose();
         Color lightGrey = new Color(238,238,238);
@@ -986,7 +1003,11 @@ public class PokeDefence {
         getHighScores();
         compareScores();
     }
-    
+    /********************************************************************************
+    * readMapIn
+    * This function takes the provided .txt file input and puts it into an ArrayList
+    * of coordinates that are used in the 'createInGameWindow' to draw the map.
+    *******************************************************************************/
     private static void readMapIn() throws IOException{
         Scanner fileInput = null; 
         String input;
@@ -1013,7 +1034,11 @@ public class PokeDefence {
             fileInput.close();
         }
     }
-    
+     /********************************************************************************
+     * previewCycler
+     * This is a helper function for the 'createGameOptionsWindow' which shows the images
+     * of avaliable maps to the user.
+     *******************************************************************************/
     private static void previewCycler(int cycleNumber){
         if (cycleNumber < 0){
             if (mapPreviewCounter == 0){
@@ -1051,7 +1076,10 @@ public class PokeDefence {
             mapDescription.setText("Error encountered.");
         }
     }
-    
+    /********************************************************************************
+     * writeNewHighScores
+     * This function writes a new High Score to a predefined .txt file when its called.
+     *******************************************************************************/
     private static void writeNewHighScores(){
                
         PrintWriter outputStream = null;
@@ -1068,7 +1096,10 @@ public class PokeDefence {
         outputStream.close();
 
     }
-    
+    /********************************************************************************
+    * getHighScores
+    * This function reads in High Scores from a predefined .txt file.
+     *******************************************************************************/
     private static void getHighScores(){
         Scanner fileInput = null; 
         String input;
@@ -1091,7 +1122,11 @@ public class PokeDefence {
             fileInput.close();
         }
     }
-    
+    /********************************************************************************
+    * compareScores
+    * This function compares all current High Scores to the new Score to see if it can
+    * make on the list.
+    *******************************************************************************/
     private static void compareScores(){
         endGameScreen.repaint();
         int check = 0;
@@ -1115,7 +1150,10 @@ public class PokeDefence {
             showHighScore();
         }
     }
-    
+    /********************************************************************************
+    * showHighScores
+    * This function displays the current High Scores on the screen
+    *******************************************************************************/
     private static void showHighScore(){
         Color lightGrey = new Color(238,238,238);
         highScoreBanner.setSize(471,80);
@@ -1138,7 +1176,10 @@ public class PokeDefence {
         
         endGameScreen.repaint();
     }
-    
+    /********************************************************************************
+    * getPlayerName
+    * This function prompts the user to enter his/her name if they got a High Score
+    *******************************************************************************/
     private static void getPlayerName(){
         final JFrame playerNameWindow = new JFrame();
         playerNameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1256,7 +1297,12 @@ public class PokeDefence {
         livesLeft.setText("Lives: " + getLives());
         currentScore.setText("Score: " + getScore());   
     }
-    
+    /***********************Main Game Loop Functions Start Here***********************/
+    /********************************************************************************
+    * gameStart
+    * This function created a new Thread for the game and overrides the 'run' method
+    * from the Thread class so it launches this game's loop.
+    *******************************************************************************/
     public static void gameStart() {
 
         Thread gameThread = new Thread() {
@@ -1268,7 +1314,11 @@ public class PokeDefence {
         };
         gameThread.start();
     }
-
+	/********************************************************************************
+    * gameLoop
+    * This function contains the infinite while loop which will iterate until the game
+    * is lost or won.
+    *******************************************************************************/
     public static void gameLoop() {
         
         boolean run = true;
@@ -1363,7 +1413,11 @@ public class PokeDefence {
 
         }
     }
-
+	/********************************************************************************
+     * gameUpdate
+     * This function is dealing with calling pathing, range detection, damage dealing and updating
+     * the objects on the screen.
+     *******************************************************************************/
     public static void gameUpdate() {
         int MAX_TICK=0;
         if(mapPreviewCounter == 0){
@@ -1403,7 +1457,10 @@ public class PokeDefence {
             }
         }
     }
-    
+    /********************************************************************************
+    * moveEnemy
+    * This function is dealing with enemy pathing.
+    *******************************************************************************/
     public static void moveEnemy(int index){
         
         
@@ -1420,7 +1477,10 @@ public class PokeDefence {
         image.setIcon(new ImageIcon(enemies[index]));
         image.setVisible(true);
     }
-    
+     /********************************************************************************
+     * randIndex
+     * This function is generating a number between 0 and 4 and returns it
+     *******************************************************************************/
     public static int randIndex(){  
         int randNum=0;
         Random randomGenerator = new Random();
@@ -1428,3 +1488,4 @@ public class PokeDefence {
         return (randNum%5);
     }
 }
+/***********************Main Game Loop Functions End Here***********************/
