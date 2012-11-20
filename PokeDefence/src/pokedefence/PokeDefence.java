@@ -1238,7 +1238,10 @@ public class PokeDefence {
         playerNameWindow.add(addName);
         
     }
-    
+    /********************************************************************************
+    * rangeFinder
+    * This function finds the range to the monster from all the towers and returns damage
+    *******************************************************************************/
     public static int rangeFinder(){
        count=0;
        int enemy = enemyPath.get(tick);
