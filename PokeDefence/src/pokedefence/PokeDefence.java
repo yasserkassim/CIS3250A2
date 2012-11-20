@@ -17,7 +17,7 @@ public class PokeDefence {
     private static int[][] Towers = new int[4][275];
     private static int waveCount=0;
     private static int score=0;
-    private static int lives = 2;
+    private static int lives = 10;
     private static int gold = 375;
     private static int totalGold=0;
     private static int mouseClickCountOne=0;
