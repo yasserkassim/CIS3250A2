@@ -33,7 +33,7 @@ public class PokeDefence {
     private static JLabel mapPreviewImage = new JLabel();
     private static String[] mapImagePath = {"./Images/Maps/map1.png", "./Images/Maps/map2.png", "./Images/Maps/map3.png"};
     private static String[] mapFilePath = {"./Images/Maps/map1.txt", "./Images/Maps/map2.txt", "./Images/Maps/map3.txt"};
-    private static int[] enemyHealth = {};
+    private static int[] enemyHealth = {100,85,150,90,76};
     /****************End of Variables********************/
     
     /****************Main Window Items*******************/
@@ -1200,38 +1200,20 @@ public class PokeDefence {
        count=0;
        int enemy = enemyPath.get(tick);
        int ex=enemy%11;
-       int ey=(enemy/11)+1;
-       int dx, dy, tx, ty, damage=0;
+       int ey=(enemy/11);
+       int dx, dy, tx=0, ty=0, damage=0;
        while(Towers[0][count]!=-1){
            tx=Towers[0][count];
            ty=Towers[1][count];
            dx=0;
            dy=0;
-           if(Towers[0][count]<ex){
-               while(tx<ex){
-                   dx++;
-                   tx++;
-               }
-           }
-           else if(Towers[0][count]>ex){
-               while(tx>ex){
-                   dx++;
-                   tx--;
-               }
-           }
-           if(Towers[1][count]>ey){
-               while(ty<ey){
-                   dy++;
-                   ty++;
-               }
-           }
-           else if(Towers[1][count]>ey){
-               while(ty>ey){
-                   dx++;
-                   ty--;
-               }
-           }
-           if(Math.sqrt(dx+dy)==1){
+           dx=(int)Math.floor((Math.abs(ex-tx)));
+           dy=(int)Math.floor((Math.abs(ey-ty)));
+           
+           System.out.println("dx:"+dx+ " dy:"+dy);
+           System.out.println("range:"+(int)Math.sqrt((dx*dx)+(dy*dy)));
+
+           if((int)Math.sqrt((dx*dx)+(dy*dy))==1){
                damage = Towers[3][count];
            }
            count++;
@@ -1293,17 +1275,26 @@ public class PokeDefence {
         
         boolean run = true;
         //This while loop breaks the game
+        int enemyHP = enemyHealth[index];
         while (run) {
             if(getLives() > 0){
                 gameUpdate();
                 tick++;
                 
-                int enemyHP = enemyHealth[index];
                 if((enemyHP - rangeFinder())> 0){
-                    enemyHP -= rangeFinder();
+                    enemyHP = enemyHP - rangeFinder();
+                    System.out.println(enemyHP);
                 }
                 else{
-                    
+                    setGold(150);
+                    setScore(400);
+                    System.out.println("Got here");
+                    battleField.get(tick).removeAll();
+                    tick = 0;
+                    index = nextIndex;
+                    nextIndex = randIndex();
+                    gameUpdate();
+                    enemyHP = enemyHealth[index];
                 }
                 
                 
@@ -1350,7 +1341,7 @@ public class PokeDefence {
                 }
             
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1500);
                 } 
                 catch (InterruptedException ex) {
                 }
