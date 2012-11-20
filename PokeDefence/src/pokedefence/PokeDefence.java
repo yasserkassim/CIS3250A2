@@ -15,8 +15,9 @@ public class PokeDefence {
 	
     /********************Variables***********************/
     private static int[][] Towers = new int[4][275];
+    private static int waveCount=0;
     private static int score=0;
-    private static int lives = 10;
+    private static int lives = 2;
     private static int gold = 375;
     private static int totalGold=0;
     private static int mouseClickCountOne=0;
@@ -399,7 +400,7 @@ public class PokeDefence {
         Color lightGrey = new Color(238,238,238);
         gameInfo.setBackground(lightGrey);
         gameInfo.setText("Game Name: POKETOWER\n\n"
-                + "Description: \n      This is a Tower Defense game in which the enemy Pokemon are are trying to attack the player's base."
+                + "Description: \n      This is a Tower Defense game in which the enemy Pokemon are trying to attack the player's base."
                 + " They follow the set path and are being attacked by towers placed by the user trying to defend their base.\n\n"
                 + "Authors:\n"
                 + "   Anton Nosov\n"
@@ -925,7 +926,7 @@ public class PokeDefence {
         winOrLose.setBackground(Color.black);
         
         if(winCondition == 1){
-            //System.out.println("You Won");
+            
             //Win Label
             winLabel.setIcon(new ImageIcon("./Images/EndGameScreen/win.jpg"));
             winLabel.setVisible(true);
@@ -933,7 +934,7 @@ public class PokeDefence {
             endGameScreen.add(winOrLose);
         }
         else if(winCondition != 1){
-            //System.out.println("You lost");
+            
             //Lose Label
             loseLabel.setIcon(new ImageIcon("./Images/EndGameScreen/lose.jpg"));
             loseLabel.setVisible(true);
@@ -1210,9 +1211,6 @@ public class PokeDefence {
            dx=(int)Math.floor((Math.abs(ex-tx)));
            dy=(int)Math.floor((Math.abs(ey-ty)));
            
-           System.out.println("dx:"+dx+ " dy:"+dy);
-           System.out.println("range:"+(int)Math.sqrt((dx*dx)+(dy*dy)));
-
            if((int)Math.sqrt((dx*dx)+(dy*dy))==1){
                damage = Towers[3][count];
            }
@@ -1277,24 +1275,36 @@ public class PokeDefence {
         //This while loop breaks the game
         int enemyHP = enemyHealth[index];
         while (run) {
-            if(getLives() > 0){
+            if(getLives() != 0){
                 gameUpdate();
                 tick++;
                 
                 if((enemyHP - rangeFinder())> 0){
                     enemyHP = enemyHP - rangeFinder();
-                    System.out.println(enemyHP);
+                    
                 }
                 else{
-                    setGold(150);
-                    setScore(400);
-                    System.out.println("Got here");
-                    battleField.get(tick).removeAll();
-                    tick = 0;
-                    index = nextIndex;
-                    nextIndex = randIndex();
-                    gameUpdate();
-                    enemyHP = enemyHealth[index];
+                    waveCount++;
+                    System.out.println(waveCount);
+                    if(waveCount == 11){
+                        winCondition = 1;
+                        createEndGameWindow();
+                        break;
+                    }
+                    else{
+                        int randNum=0;
+                        Random randomGenerator = new Random();
+                        randNum = randomGenerator.nextInt(15);
+                        setGold(15*randNum);
+                        setScore(21*randNum);
+                        updateStats();
+                        battleField.get(tick).removeAll();
+                        tick = 0;
+                        index = nextIndex;
+                        nextIndex = randIndex();
+                        gameUpdate();
+                        enemyHP = enemyHealth[index];
+                    }
                 }
                 
                 
@@ -1341,7 +1351,7 @@ public class PokeDefence {
                 }
             
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(1000);
                 } 
                 catch (InterruptedException ex) {
                 }
@@ -1392,17 +1402,13 @@ public class PokeDefence {
                 moveEnemy(index);
             }
         }
-        /*if(tick == MAX_TICK){
-            index = randIndex();
-            System.out.println(index);
-        }*/
     }
     
     public static void moveEnemy(int index){
         
-        //System.out.println(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1)));
+        
         if(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1))){
-            //System.out.println("Got here");
+            
             setLives(-1);
             updateStats();
         }
