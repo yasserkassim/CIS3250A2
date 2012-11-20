@@ -14,9 +14,10 @@ import javax.swing.*;
 public class PokeDefence {
 	
     /********************Variables***********************/
+    private static int[][] Towers = new int[4][275];
     private static int score=0;
     private static int lives = 10;
-    private static int gold = 0;
+    private static int gold = 375;
     private static int totalGold=0;
     private static int mouseClickCountOne=0;
     private static int mouseClickCountTwo=0;
@@ -24,13 +25,15 @@ public class PokeDefence {
     private static String[][] mapLayout = new String[11][26];
     private static int count=0;
     private static int tick=0;
-    private static int index = randIndex();
+    private static int nextIndex = randIndex();
+    private static int index = nextIndex;
     private static String playerName="";
     private static int winCondition=0;
     private static int mapPreviewCounter=0;
     private static JLabel mapPreviewImage = new JLabel();
     private static String[] mapImagePath = {"./Images/Maps/map1.png", "./Images/Maps/map2.png", "./Images/Maps/map3.png"};
     private static String[] mapFilePath = {"./Images/Maps/map1.txt", "./Images/Maps/map2.txt", "./Images/Maps/map3.txt"};
+    private static int[] enemyHealth = {};
     /****************End of Variables********************/
     
     /****************Main Window Items*******************/
@@ -46,7 +49,7 @@ public class PokeDefence {
     
     /**************Game Options Window Items******************/
     private static JFrame gameOptionsWindow = new JFrame("Options");
-    private static JPanel mapSelectionTitle = new JPanel();
+    private static JLabel mapSelectionTitle = new JLabel("---Select a Map---", JLabel.CENTER);
     private static JPanel mapPreview = new JPanel();
     private static JLabel mapPreviewLabel = new JLabel();
     private static JButton mapPreviewNext = new JButton();
@@ -65,9 +68,11 @@ public class PokeDefence {
     //private static JButton pauseGame = new JButton("Pause Game");
     private static JPanel currentEnemies = new JPanel();
     private static JPanel nextWaveEnemies = new JPanel();
-    private static JButton towerOne = new JButton("Tower One");
-    private static JButton towerTwo = new JButton("Tower Two");
-    private static JButton towerThree = new JButton("Tower Three");
+    private static JTextArea currentEnemiesText = new JTextArea();
+    private static JTextArea nextWaveText = new JTextArea();
+    private static JButton towerOne = new JButton("Archer Tower - $150");
+    private static JButton towerTwo = new JButton("Cannon Tower - $300");
+    private static JButton towerThree = new JButton("Mage Tower - $500");
     private static JPanel topBorder = new JPanel();
     private static ArrayList<JPanel> battleField = new ArrayList<>();
     private static ArrayList<Integer> enemyPath = new ArrayList<>();
@@ -293,7 +298,7 @@ public class PokeDefence {
         mapSelectionTitle.setSize(400,150);
         mapSelectionTitle.setLocation(300,20);
         mapSelectionTitle.setVisible(true);
-        mapSelectionTitle.setBackground(Color.BLACK);
+        mapSelectionTitle.setFont(new Font("Times New Roman", Font.PLAIN, 48));
         gameOptionsWindow.add(mapSelectionTitle);
         
         
@@ -333,14 +338,15 @@ public class PokeDefence {
         mapPreviewPrevious.addActionListener(previewPrevious);
         
         gameOptionsWindow.add(mapPreviewPrevious);
-        
+        Color lightGray=new Color(238,238,238);
         mapDescription.setSize(400,150);
         mapDescription.setLocation(500,250);
+        mapDescription.setFont(new Font("Times New Roman", Font.PLAIN, 24));
         mapDescription.setEditable(false);
         mapDescription.setLineWrap(true);
         mapDescription.setWrapStyleWord(true);
-        mapDescription.setText("This is a test string which is used in the text area to provide the details about the map that will be displayed"
-                + "during the game selection process.");
+        mapDescription.setBackground(lightGray);
+        mapDescription.setText("This map has a medium diffculty because it has a few turns and provides a slightly easier game than map two.");
         mapDescription.setVisible(true);
         gameOptionsWindow.add(mapDescription);
         
@@ -526,7 +532,9 @@ public class PokeDefence {
                 }
             }
         }
-        
+        for(int i=0;i<275;i++){
+          Towers[0][i]=-1;  
+        }
         gridWindow.repaint();
         //Button
         //pauseGame.setSize(50,50);
@@ -537,8 +545,16 @@ public class PokeDefence {
         currentEnemies.setSize(200,72);
         currentEnemies.setLocation(0,490);
         currentEnemies.setVisible(true);
-        currentEnemies.setBackground(Color.black);
+        currentEnemies.setBackground(Color.orange);
         gridWindow.add(currentEnemies);
+        
+        //TextArea
+        currentEnemiesText.setSize(160,42);
+        currentEnemiesText.setLocation(30,520);
+        currentEnemiesText.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        currentEnemiesText.setVisible(true);
+        currentEnemiesText.setBackground(Color.orange);
+        gridWindow.add(currentEnemiesText);
         
         //Panel
         nextWaveEnemies.setSize(200,72);
@@ -547,35 +563,47 @@ public class PokeDefence {
         nextWaveEnemies.setBackground(Color.red);
         gridWindow.add(nextWaveEnemies);
         
+        //TextArea
+        nextWaveText.setSize(160,42);
+        nextWaveText.setLocation(240,520);
+        nextWaveText.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        nextWaveText.setVisible(true);
+        nextWaveText.setBackground(Color.red);
+        gridWindow.add(nextWaveText);
+        
         //Button
         towerOne.setSize(200, 72);
-	       towerOne.setLocation(400, 490);
+	towerOne.setLocation(400, 490);
         Action towerOneLocation = new AbstractAction("") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < 275; i++) {
                     if ((JButton) e.getSource() == tower1.get(i)) {
-                        JLabel image = new JLabel();
-                        image.setIcon(new ImageIcon("./Images/Towers/archerTower.jpg"));
-                        battleField.get(i).add(image);
+                        if(getGold()>=150){
+                            int x1=0;
+                            setGold(-150);
+                            updateStats();
+                            JLabel image = new JLabel();
+                            image.setIcon(new ImageIcon("./Images/Towers/archerTower.jpg"));
+                            battleField.get(i).add(image);
 
-                        //battleField.get(i).setBackground(Color.ORANGE);
+                            //battleField.get(i).setBackground(Color.ORANGE);
 
-                        tower1.get(i).setEnabled(false);
-                        tower1.get(i).setVisible(false);
-                        int x = i / 11;
-                        int y = i % 11;
-                        mapLayout[y][x + 1] = "1";
-                        gridWindow.repaint();
-
+                            tower1.get(i).setEnabled(false);
+                            tower1.get(i).setVisible(false);
+                            int x = i / 11;
+                            int y = i % 11;
+                            while(Towers[0][x1]!=-1){
+                                x1++;
+                            }
+                            Towers[0][x1] = y;
+                            Towers[1][x1] = x + 1;
+                            Towers[2][x1] = i;
+                            Towers[3][x1] = 25;
+                            mapLayout[y][x + 1] = "1";
+                            gridWindow.repaint();
+                        }
                     }
-                }
-                for (int i = 0; i < 26; i++) {
-                    for (int j = 0; j < 11; j++) {
-                        System.out.print(mapLayout[j][i]);
-                    }
-
-                    System.out.println("");
                 }
             }
         };
@@ -662,16 +690,28 @@ public class PokeDefence {
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < 275; i++) {
                     if ((JButton) e.getSource() == tower2.get(i)) {
-                        JLabel image = new JLabel();
-                        image.setIcon(new ImageIcon("./Images/Towers/cannonTower.jpg"));
-                        battleField.get(i).add(image);
-                        //battleField.get(i).setBackground(Color.PINK);
-                        tower2.get(i).setEnabled(false);
-                        tower2.get(i).setVisible(false);
-                        int x = i / 11;
-                        int y = i % 11;
-                        mapLayout[y][x + 1] = "1";
-                        gridWindow.repaint();
+                         if(getGold()>=300){
+                            int x1=0;
+                            setGold(-300);
+                            updateStats();
+                            JLabel image = new JLabel();
+                            image.setIcon(new ImageIcon("./Images/Towers/cannonTower.jpg"));
+                            battleField.get(i).add(image);
+                            //battleField.get(i).setBackground(Color.PINK);
+                            tower2.get(i).setEnabled(false);
+                            tower2.get(i).setVisible(false);
+                            int x = i / 11;
+                            int y = i % 11;
+                            while(Towers[0][x1]!=-1){
+                                 x1++;
+                             }
+                             Towers[0][x1] = y;
+                             Towers[1][x1] = x + 1;
+                             Towers[2][x1] = i;
+                             Towers[3][x1] = 55;
+                             mapLayout[y][x + 1] = "1";
+                            gridWindow.repaint();
+                         }
                     }
                 }
             }
@@ -757,16 +797,29 @@ public class PokeDefence {
             public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < 275; i++) {
                     if ((JButton) e.getSource() == tower3.get(i)) {
-                        JLabel image = new JLabel();
-                        image.setIcon(new ImageIcon("./Images/Towers/mageTower.png"));
-                        battleField.get(i).add(image);
-                        //battleField.get(i).setBackground(Color.BLACK);
-                        tower3.get(i).setEnabled(false);
-                        tower3.get(i).setVisible(false);
-                        int x = i / 11;
-                        int y = i % 11;
+                        if(getGold()>=500){
+                            int x1=0;
+                            setGold(-500);
+                            updateStats();
+                            JLabel image = new JLabel();
+                            image.setIcon(new ImageIcon("./Images/Towers/mageTower.png"));
+                            battleField.get(i).add(image);
+                            //battleField.get(i).setBackground(Color.BLACK);
+                            tower3.get(i).setEnabled(false);
+                            tower3.get(i).setVisible(false);
+                            int x = i / 11;
+                            int y = i % 11;
+                            while (Towers[0][x1] != -1) {
+                                x1++;
+                            }
+                            Towers[0][x1] = y;
+                            Towers[1][x1] = x + 1;
+                            Towers[2][x1] = i;
+                            Towers[3][x1] = 80;
+
                         mapLayout[y][x + 1] = "1";
                         gridWindow.repaint();
+                        }
                     }
                 }
             }
@@ -907,7 +960,7 @@ public class PokeDefence {
         
         
         //Button
-        returnToMenu.setSize(250,50);
+        /*returnToMenu.setSize(250,50);
         returnToMenu.setLocation(350,360);
         Action returnToMain = new AbstractAction("") {
             public void actionPerformed(ActionEvent e) {
@@ -916,7 +969,7 @@ public class PokeDefence {
         };
         returnToMenu.addActionListener(returnToMain);
         endGameScreen.add(returnToMenu);
-        
+        */
         //Button
         quitButton.setSize(250,50);
         quitButton.setLocation(350,450);
@@ -1143,6 +1196,49 @@ public class PokeDefence {
         
     }
     
+    public static int rangeFinder(){
+       count=0;
+       int enemy = enemyPath.get(tick);
+       int ex=enemy%11;
+       int ey=(enemy/11)+1;
+       int dx, dy, tx, ty, damage=0;
+       while(Towers[0][count]!=-1){
+           tx=Towers[0][count];
+           ty=Towers[1][count];
+           dx=0;
+           dy=0;
+           if(Towers[0][count]<ex){
+               while(tx<ex){
+                   dx++;
+                   tx++;
+               }
+           }
+           else if(Towers[0][count]>ex){
+               while(tx>ex){
+                   dx++;
+                   tx--;
+               }
+           }
+           if(Towers[1][count]>ey){
+               while(ty<ey){
+                   dy++;
+                   ty++;
+               }
+           }
+           else if(Towers[1][count]>ey){
+               while(ty>ey){
+                   dx++;
+                   ty--;
+               }
+           }
+           if(Math.sqrt(dx+dy)==1){
+               damage = Towers[3][count];
+           }
+           count++;
+       }
+        return damage;
+    }
+    
     public static int getScore() {
         return score;
     }
@@ -1201,6 +1297,57 @@ public class PokeDefence {
             if(getLives() > 0){
                 gameUpdate();
                 tick++;
+                
+                int enemyHP = enemyHealth[index];
+                if((enemyHP - rangeFinder())> 0){
+                    enemyHP -= rangeFinder();
+                }
+                else{
+                    
+                }
+                
+                
+                if (index == 0)
+                {
+                    currentEnemiesText.setText("Now Facing: Mew");
+                } 
+                else if (index == 1)
+                {
+                    currentEnemiesText.setText("Now Facing: Eevee");
+                }
+                else if (index == 2)
+                {
+                    currentEnemiesText.setText("Now Facing: Mewtwo");
+                }
+                else if (index == 3)
+                {
+                    currentEnemiesText.setText("Now Facing: Gyrados");
+                }
+                else if (index == 4)
+                {
+                    currentEnemiesText.setText("Now Facing: Rattata");
+                }
+            
+                if (nextIndex == 0)
+                {
+                    nextWaveText.setText("Next Up: Mew");
+                } 
+                else if (nextIndex == 1)
+                {
+                    nextWaveText.setText("Next Up: Eevee");
+                }
+                else if (nextIndex == 2)
+                {
+                    nextWaveText.setText("Next Up: Mewtwo");
+                }
+                else if (nextIndex == 3)
+                {
+                    nextWaveText.setText("Next Up: Gyrados");
+                }
+                else if (nextIndex == 4)
+                {
+                    nextWaveText.setText("Next Up: Rattata");
+                }
             
                 try {
                     Thread.sleep(1000);
@@ -1221,7 +1368,8 @@ public class PokeDefence {
         if(mapPreviewCounter == 0){
             MAX_TICK = 31;
             if(tick >= MAX_TICK){
-                index = randIndex();
+                index = nextIndex;
+                nextIndex = randIndex();
                 tick = 0;
                 moveEnemy(index);
             }
@@ -1230,9 +1378,10 @@ public class PokeDefence {
             }
         }
         else if(mapPreviewCounter == 1){
-            MAX_TICK = 24;
+            MAX_TICK = 25;
             if(tick >= MAX_TICK){
-                index = randIndex();
+                index = nextIndex;
+                nextIndex = randIndex();
                 tick = 0;
                 moveEnemy(index);
             }
@@ -1243,7 +1392,8 @@ public class PokeDefence {
         else if(mapPreviewCounter == 2){
             MAX_TICK = 33;
             if(tick >= MAX_TICK){
-                index = randIndex();
+                index = nextIndex;
+                nextIndex = randIndex();
                 tick = 0;
                 moveEnemy(index);
             }
