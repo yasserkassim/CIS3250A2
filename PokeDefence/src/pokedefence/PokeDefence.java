@@ -9,7 +9,7 @@ import javax.swing.*;
 
 /**
  *
- * @author Justin
+ * @author Group 4 - names on the Info Page.
  */
 public class PokeDefence {
 	
@@ -104,103 +104,11 @@ public class PokeDefence {
     //Use quit button predefined above in this window.
 
     /**********End of End-Game Window Items*************/
-    
-    /****************Mobs/Towers************************/
-    private static ArrayList<String> mobs = new ArrayList<>();
-    private static ArrayList<String> towers = new ArrayList<>();
-    /*************End Mobs/Towers***********************/
-    
-    
-    
-    
+      
     public static void  main(String[] args) throws IOException{
         createMainWindow();
-        //createInfoWindow();
-        //createGameOptionsWindow();
-        //createInGameWindow();
-        //createEndGameWindow();
-        //readMapIn();
-        //getHighScores();
-        //writeNewHighScores();
-
-        
-        
-        //Damage, range, cost, fire speed
-        towers.add("25, 6, 150, 2"); //index 0
-        towers.add("55, 4, 300, 1");
-        towers.add("80, 3, 500, 4");
-
-        //Health, Speed, Defence, Gold
-        mobs.add("50, 2, 5, 25");
-        mobs.add("25, 4, 2, 15");
-        mobs.add("150, 1, 10, 75");
-        mobs.add("500, 2, 15, 200");
-        mobs.add("2000, 1, 50, 2000");
-        
-        int x = 0;
-        //towers.set(x, towerUpgrade(towers.get(x)));
-        
     }
 
-    //I took this as a method to get the sell price of a tower where after it is called then you can delete said tower
-    public static int towerSell(String currentTower){
-        //Would use it like setGold(towerSell(towers.get(x))) then remove the tower
-        String Tokens[];
-        int sellPrice;
-        //Splits the tower string into tokens to get the value of the tower
-        Tokens = currentTower.split(", ");
-        //Gets the sell value of the tower
-        sellPrice = Integer.parseInt(Tokens[1]);
-        sellPrice = (int) (sellPrice * 0.5);
-        
-
-        return sellPrice;
-    }
-    
-    //I took this as a method to deal damage to a mob with a tower by first getting it's damage, then minusing the mobs health by said amount
-    public static String towerShot(String currentTower, String currentMob){
-        String Tokens[];
-        //Splits the tower string into tokens to get the damage of the tower
-        Tokens = currentTower.split(", ");
-        //Gets the damage of the tower
-        int Damage = Integer.parseInt(Tokens[0]);
-        Tokens = currentMob.split(", ");
-        int newHealth = Integer.parseInt(Tokens[0]) - Damage;
-        
-        //Create the new mob string with updated health
-        String updatedMob = "" + newHealth;
-        for (int i = 1; i < Tokens.length;i++){
-            updatedMob = updatedMob + Tokens[i] + ", ";
-        }
-        
-        return updatedMob;
-    }
-
-    
-    //Takes in the mob array and checks if any have their HP below 0
-    public static int mobKilled(String[] mob){
-        for(int i = 0;i<mob.length;i++){
-            //Condition that one of the mobs hp is 0 or below
-            int hp;
-            //Changes the mob info from string into an integer value for hp
-            if(mob[i].charAt(1) == ',') {
-                hp = Integer.parseInt("" + mob[i].charAt(0));
-            }
-            else {
-                hp = Integer.parseInt("" + mob[i].charAt(0) + mob[i].charAt(1));
-            }
-            
-            if(hp <= 0){
-                //Returns the mob that is dead
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public static void collision(){
-        
-    }
 	/***********************Menus Functions Start Here***********************/
     /********************************************************************************
     * createMainWindow
