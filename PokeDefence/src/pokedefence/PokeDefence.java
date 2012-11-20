@@ -312,7 +312,6 @@ public class PokeDefence {
         
         Action previewNext = new AbstractAction("") {
             public void actionPerformed(ActionEvent e) {
-               
                 previewCycler(1);
             }
         };
@@ -475,27 +474,27 @@ public class PokeDefence {
                 battleField.get(count).setLocation((i*40)-40,(j*40)+50);
                 gridWindow.add(battleField.get(count));
 
-				tower1.add(new JButton());
-				tower1.get(count).setSize(40, 40);
-				tower1.get(count).setLocation((i * 40) - 40, (j * 40) + 50);
-				gridWindow.add(tower1.get(count));
-				tower1.get(count).setVisible(false);
-				tower1.get(count).setEnabled(false);
+                tower1.add(new JButton());
+                tower1.get(count).setSize(40, 40);
+                tower1.get(count).setLocation((i * 40) - 40, (j * 40) + 50);
+                gridWindow.add(tower1.get(count));
+                tower1.get(count).setVisible(false);
+                tower1.get(count).setEnabled(false);
 
-				tower2.add(new JButton());
-				tower2.get(count).setSize(40, 40);
-				tower2.get(count).setLocation((i * 40) - 40, (j * 40) + 50);
-				gridWindow.add(tower2.get(count));
-				tower2.get(count).setVisible(false);
-				tower2.get(count).setEnabled(false);
-				
-				tower3.add(new JButton());
-				tower3.get(count).setSize(40, 40);
-				tower3.get(count).setLocation((i * 40) - 40, (j * 40) + 50);
-				gridWindow.add(tower3.get(count));
-				tower3.get(count).setVisible(false);
-				tower3.get(count).setEnabled(false);
-                
+                tower2.add(new JButton());
+                tower2.get(count).setSize(40, 40);
+                tower2.get(count).setLocation((i * 40) - 40, (j * 40) + 50);
+                gridWindow.add(tower2.get(count));
+                tower2.get(count).setVisible(false);
+                tower2.get(count).setEnabled(false);
+
+                tower3.add(new JButton());
+                tower3.get(count).setSize(40, 40);
+                tower3.get(count).setLocation((i * 40) - 40, (j * 40) + 50);
+                gridWindow.add(tower3.get(count));
+                tower3.get(count).setVisible(false);
+                tower3.get(count).setEnabled(false);
+
                 if (mapLayout[j][i].equals("0")) {
                     //JLabel number = new JLabel();
                     //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
@@ -550,311 +549,306 @@ public class PokeDefence {
         
         //Button
         towerOne.setSize(200, 72);
-		towerOne.setLocation(400, 490);
-		Action towerOneLocation = new AbstractAction("") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < 275; i++) {
-					if ((JButton) e.getSource() == tower1.get(i)) {
-						JLabel image = new JLabel();
-						image.setIcon(new ImageIcon("./Images/Towers/archerTower.jpg"));
-						battleField.get(i).add(image);
-						
-						//battleField.get(i).setBackground(Color.ORANGE);
-						
-						tower1.get(i).setEnabled(false);
-						tower1.get(i).setVisible(false);
-						int x = i / 11;
-						int y = i % 11;
-						mapLayout[y][x + 1] = "1";
-						gridWindow.repaint();
+	       towerOne.setLocation(400, 490);
+        Action towerOneLocation = new AbstractAction("") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 275; i++) {
+                    if ((JButton) e.getSource() == tower1.get(i)) {
+                        JLabel image = new JLabel();
+                        image.setIcon(new ImageIcon("./Images/Towers/archerTower.jpg"));
+                        battleField.get(i).add(image);
 
-					}
-				}
-				for (int i = 0; i < 26; i++) {
-					for (int j = 0; j < 11; j++) {
-						System.out.print(mapLayout[j][i]);
-					}
+                        //battleField.get(i).setBackground(Color.ORANGE);
 
-					System.out.println("");
-				}
-			}
-		};
-		count = 0;
-		for (int i = 0; i < 26; i++) {
-			for (int j = 0; j < 11; j++) {
-				tower1.get(count).addActionListener(towerOneLocation);
-				count++;
-			}
-		}
-		Action addTowerOne = new AbstractAction("") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickCountOne++;
-				towerThree.setEnabled(false);
-				towerTwo.setEnabled(false);
+                        tower1.get(i).setEnabled(false);
+                        tower1.get(i).setVisible(false);
+                        int x = i / 11;
+                        int y = i % 11;
+                        mapLayout[y][x + 1] = "1";
+                        gridWindow.repaint();
 
-				if (mouseClickCountOne == 1) {
-					count = 0;
-					for (int i = 0; i < 26; i++) {
-						for (int j = 0; j < 11; j++) {
-							if (mapLayout[j][i].equals("0")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//    battleField.get(count).setBackground(Color.GREEN);
-								tower1.get(count).setEnabled(true);
-								tower1.get(count).setVisible(true);
+                    }
+                }
+                for (int i = 0; i < 26; i++) {
+                    for (int j = 0; j < 11; j++) {
+                        System.out.print(mapLayout[j][i]);
+                    }
 
-								count++;
-							} 
-							else if (mapLayout[j][i].equals("1")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//     battleField.get(count).setBackground(Color.gray);
-								count++;
-							}
-							else if (mapLayout[j][i].equals("S")) {
-                                count++;
-                            }
-							else if (mapLayout[j][i].equals("F")) {
-                                count++;
-                            }
-						}
-					}
-					gridWindow.repaint();
-				} 
-				else{
-					mouseClickCountOne = 0;
-					count = 0;
-					for (int i = 0; i < 26; i++) {
-						for (int j = 0; j < 11; j++) {
-							if (mapLayout[j][i].equals("0")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//   battleField.get(count).setBackground(Color.blue);
-								tower1.get(count).setEnabled(false);
-								tower1.get(count).setVisible(false);
-								count++;
-							} 
-							else if (mapLayout[j][i].equals("1")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//   battleField.get(count).setBackground(Color.gray);
-								count++;
-							}
-							else if (mapLayout[j][i].equals("S")) {
-                                count++;
-                            }
-							else if (mapLayout[j][i].equals("F")) {
-                                count++;
-                            }
-						}
-					}
-					towerThree.setEnabled(true);
-					towerTwo.setEnabled(true);
-					gridWindow.repaint();
-				}
-			}
-		};
-		towerOne.addActionListener(addTowerOne);
+                    System.out.println("");
+                }
+            }
+        };
+        count = 0;
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < 11; j++) {
+                tower1.get(count).addActionListener(towerOneLocation);
+                count++;
+            }
+        }
+        Action addTowerOne = new AbstractAction("") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mouseClickCountOne++;
+                towerThree.setEnabled(false);
+                towerTwo.setEnabled(false);
 
-		gridWindow.add(towerOne);
-		gridWindow.repaint();
-		/*________________________________________________________________*/
-		towerTwo.setSize(200, 72);
-		towerTwo.setLocation(600, 490);
-		Action towerTwoLocation = new AbstractAction("") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < 275; i++) {
-					if ((JButton) e.getSource() == tower2.get(i)) {
-						JLabel image = new JLabel();
-						image.setIcon(new ImageIcon("./Images/Towers/cannonTower.jpg"));
-						battleField.get(i).add(image);
-						//battleField.get(i).setBackground(Color.PINK);
-						tower2.get(i).setEnabled(false);
-						tower2.get(i).setVisible(false);
-						int x = i / 11;
-						int y = i % 11;
-						mapLayout[y][x + 1] = "1";
-						gridWindow.repaint();
-					}
-				}
-			}
-		};
-		count = 0;
-		for (int i = 0; i < 26; i++) {
-			for (int j = 0; j < 11; j++) {
-				tower2.get(count).addActionListener(towerTwoLocation);
-				count++;
-			}
-		}
-		Action addTowerTwo = new AbstractAction("") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickCountTwo++;
-				towerOne.setEnabled(false);
-				towerThree.setEnabled(false);
+                if (mouseClickCountOne == 1) {
+                    count = 0;
+                    for (int i = 0; i < 26; i++) {
+                        for (int j = 0; j < 11; j++) {
+                            if (mapLayout[j][i].equals("0")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //    battleField.get(count).setBackground(Color.GREEN);
+                                tower1.get(count).setEnabled(true);
+                                tower1.get(count).setVisible(true);
 
-				if (mouseClickCountTwo == 1) {
-					count = 0;
-					for (int i = 0; i < 26; i++) {
-						for (int j = 0; j < 11; j++) {
-							if (mapLayout[j][i].equals("0")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//    battleField.get(count).setBackground(Color.GREEN);
-								tower2.get(count).setEnabled(true);
-								tower2.get(count).setVisible(true);
+                                count++;
+                            }
+                            else if (mapLayout[j][i].equals("1")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //     battleField.get(count).setBackground(Color.gray);
+                                count++;
+                            } 
+                            else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            } 
+                            else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
+                        }
+                    }
+                    gridWindow.repaint();
+                } else {
+                    mouseClickCountOne = 0;
+                    count = 0;
+                    for (int i = 0; i < 26; i++) {
+                        for (int j = 0; j < 11; j++) {
+                            if (mapLayout[j][i].equals("0")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //   battleField.get(count).setBackground(Color.blue);
+                                tower1.get(count).setEnabled(false);
+                                tower1.get(count).setVisible(false);
+                                count++;
+                            } 
+                            else if (mapLayout[j][i].equals("1")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //   battleField.get(count).setBackground(Color.gray);
+                                count++;
+                            } 
+                            else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            }
+                            else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
+                        }
+                    }
+                    towerThree.setEnabled(true);
+                    towerTwo.setEnabled(true);
+                    gridWindow.repaint();
+                }
+            }
+        };
+        towerOne.addActionListener(addTowerOne);
 
-								count++;
-							}
-							else if (mapLayout[j][i].equals("1")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//     battleField.get(count).setBackground(Color.gray);
-								count++;
-							}
-							else if (mapLayout[j][i].equals("S")) {
-                                count++;
-                            }
-							else if (mapLayout[j][i].equals("F")) {
-                                count++;
-                            }
-						}
-					}
-					gridWindow.repaint();
-				} 
-				else{
-					mouseClickCountTwo = 0;
-					count = 0;
-					for (int i = 0; i < 26; i++) {
-						for (int j = 0; j < 11; j++) {
-							if (mapLayout[j][i].equals("0")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//   battleField.get(count).setBackground(Color.blue);
-								tower2.get(count).setEnabled(false);
-								tower2.get(count).setVisible(false);
-								count++;
-							} 
-							else if (mapLayout[j][i].equals("1")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//   battleField.get(count).setBackground(Color.gray);
-								count++;
-							}
-							else if (mapLayout[j][i].equals("S")) {
-                                count++;
-                            }
-							else if (mapLayout[j][i].equals("F")) {
-                                count++;
-                            }
-						}
-					}
-					towerOne.setEnabled(true);
-					towerThree.setEnabled(true);
-					gridWindow.repaint();
-				}
-			}
-		};
-		towerTwo.addActionListener(addTowerTwo);
+        gridWindow.add(towerOne);
+        gridWindow.repaint();
+        /*________________________________________________________________*/
+        towerTwo.setSize(200, 72);
+        towerTwo.setLocation(600, 490);
+        Action towerTwoLocation = new AbstractAction("") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 275; i++) {
+                    if ((JButton) e.getSource() == tower2.get(i)) {
+                        JLabel image = new JLabel();
+                        image.setIcon(new ImageIcon("./Images/Towers/cannonTower.jpg"));
+                        battleField.get(i).add(image);
+                        //battleField.get(i).setBackground(Color.PINK);
+                        tower2.get(i).setEnabled(false);
+                        tower2.get(i).setVisible(false);
+                        int x = i / 11;
+                        int y = i % 11;
+                        mapLayout[y][x + 1] = "1";
+                        gridWindow.repaint();
+                    }
+                }
+            }
+        };
+        count = 0;
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < 11; j++) {
+                tower2.get(count).addActionListener(towerTwoLocation);
+                count++;
+            }
+        }
+        Action addTowerTwo = new AbstractAction("") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mouseClickCountTwo++;
+                towerOne.setEnabled(false);
+                towerThree.setEnabled(false);
 
-		gridWindow.add(towerTwo);
-		gridWindow.repaint();
-		/* _________________________________________________________________________*/
-		//Button
-		towerThree.setSize(200, 72);
-		towerThree.setLocation(800, 490);
-		Action towerThreeLocation = new AbstractAction("") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < 275; i++) {
-					if ((JButton) e.getSource() == tower3.get(i)) {
-						JLabel image = new JLabel();
-						image.setIcon(new ImageIcon("./Images/Towers/mageTower.png"));
-						battleField.get(i).add(image);
-						//battleField.get(i).setBackground(Color.BLACK);
-						tower3.get(i).setEnabled(false);
-						tower3.get(i).setVisible(false);
-						int x = i / 11;
-						int y = i % 11;
-						mapLayout[y][x + 1] = "1";
-						gridWindow.repaint();
-					}
-				}
-			}
-		};
-		count = 0;
-		for (int i = 0; i < 26; i++) {
-			for (int j = 0; j < 11; j++) {
-				tower3.get(count).addActionListener(towerThreeLocation);
-				count++;
-			}
-		}
-		Action addTowerThree = new AbstractAction("") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mouseClickCountThree++;
-				towerOne.setEnabled(false);
-				towerTwo.setEnabled(false);
+                if (mouseClickCountTwo == 1) {
+                    count = 0;
+                    for (int i = 0; i < 26; i++) {
+                        for (int j = 0; j < 11; j++) {
+                            if (mapLayout[j][i].equals("0")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //    battleField.get(count).setBackground(Color.GREEN);
+                                tower2.get(count).setEnabled(true);
+                                tower2.get(count).setVisible(true);
 
-				if (mouseClickCountThree == 1) {
-					count = 0;
-					for (int i = 0; i < 26; i++) {
-						for (int j = 0; j < 11; j++) {
-							if (mapLayout[j][i].equals("0")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//    battleField.get(count).setBackground(Color.GREEN);
-								tower3.get(count).setEnabled(true);
-								tower3.get(count).setVisible(true);
+                                count++;
+                            }
+                            else if (mapLayout[j][i].equals("1")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //     battleField.get(count).setBackground(Color.gray);
+                                count++;
+                            }
+                            else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            }
+                            else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
+                        }
+                    }
+                    gridWindow.repaint();
+                } else {
+                    mouseClickCountTwo = 0;
+                    count = 0;
+                    for (int i = 0; i < 26; i++) {
+                        for (int j = 0; j < 11; j++) {
+                            if (mapLayout[j][i].equals("0")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //   battleField.get(count).setBackground(Color.blue);
+                                tower2.get(count).setEnabled(false);
+                                tower2.get(count).setVisible(false);
+                                count++;
+                            } else if (mapLayout[j][i].equals("1")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //   battleField.get(count).setBackground(Color.gray);
+                                count++;
+                            } else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            } else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
+                        }
+                    }
+                    towerOne.setEnabled(true);
+                    towerThree.setEnabled(true);
+                    gridWindow.repaint();
+                }
+            }
+        };
+        towerTwo.addActionListener(addTowerTwo);
 
-								count++;
-							} 
-							else if (mapLayout[j][i].equals("1")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//     battleField.get(count).setBackground(Color.gray);
-								count++;
-							}
-							else if (mapLayout[j][i].equals("S")) {
-                                count++;
-                            }
-							else if (mapLayout[j][i].equals("F")) {
-                                count++;
-                            }
-						}
-					}
-					gridWindow.repaint();
-				} 
-				else {
-					mouseClickCountThree = 0;
-					count = 0;
-					for (int i = 0; i < 26; i++) {
-						for (int j = 0; j < 11; j++) {
-							if (mapLayout[j][i].equals("0")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//   battleField.get(count).setBackground(Color.blue);
-								tower3.get(count).setEnabled(false);
-								tower3.get(count).setVisible(false);
-								count++;
-							} 
-							else if (mapLayout[j][i].equals("1")) {
-								//battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
-								//   battleField.get(count).setBackground(Color.gray);
-								count++;
-							}
-							else if (mapLayout[j][i].equals("S")) {
-                                count++;
-                            }
-							else if (mapLayout[j][i].equals("F")) {
-                                count++;
-                            }
-						}
-					}
-					towerOne.setEnabled(true);
-					towerTwo.setEnabled(true);
-					gridWindow.repaint();
-				}
-			}
-		};
-		towerThree.addActionListener(addTowerThree);
+        gridWindow.add(towerTwo);
+        gridWindow.repaint();
+        /* _________________________________________________________________________*/
+        //Button
+        towerThree.setSize(200, 72);
+        towerThree.setLocation(800, 490);
+        Action towerThreeLocation = new AbstractAction("") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < 275; i++) {
+                    if ((JButton) e.getSource() == tower3.get(i)) {
+                        JLabel image = new JLabel();
+                        image.setIcon(new ImageIcon("./Images/Towers/mageTower.png"));
+                        battleField.get(i).add(image);
+                        //battleField.get(i).setBackground(Color.BLACK);
+                        tower3.get(i).setEnabled(false);
+                        tower3.get(i).setVisible(false);
+                        int x = i / 11;
+                        int y = i % 11;
+                        mapLayout[y][x + 1] = "1";
+                        gridWindow.repaint();
+                    }
+                }
+            }
+        };
+        count = 0;
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < 11; j++) {
+                tower3.get(count).addActionListener(towerThreeLocation);
+                count++;
+            }
+        }
+        Action addTowerThree = new AbstractAction("") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mouseClickCountThree++;
+                towerOne.setEnabled(false);
+                towerTwo.setEnabled(false);
 
-		gridWindow.add(towerThree);
-		gridWindow.repaint();
-		/*____________________________________________________________*/
-	}
+                if (mouseClickCountThree == 1) {
+                    count = 0;
+                    for (int i = 0; i < 26; i++) {
+                        for (int j = 0; j < 11; j++) {
+                            if (mapLayout[j][i].equals("0")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //    battleField.get(count).setBackground(Color.GREEN);
+                                tower3.get(count).setEnabled(true);
+                                tower3.get(count).setVisible(true);
+
+                                count++;
+                            }
+                            else if (mapLayout[j][i].equals("1")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //     battleField.get(count).setBackground(Color.gray);
+                                count++;
+                            }
+                            else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            } 
+                            else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
+                        }
+                    }
+                    gridWindow.repaint();
+                } 
+                else {
+                    mouseClickCountThree = 0;
+                    count = 0;
+                    for (int i = 0; i < 26; i++) {
+                        for (int j = 0; j < 11; j++) {
+                            if (mapLayout[j][i].equals("0")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //   battleField.get(count).setBackground(Color.blue);
+                                tower3.get(count).setEnabled(false);
+                                tower3.get(count).setVisible(false);
+                                count++;
+                            } 
+                            else if (mapLayout[j][i].equals("1")) {
+                                //battleField.get(count).setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                                //   battleField.get(count).setBackground(Color.gray);
+                                count++;
+                            } 
+                            else if (mapLayout[j][i].equals("S")) {
+                                count++;
+                            } 
+                            else if (mapLayout[j][i].equals("F")) {
+                                count++;
+                            }
+                        }
+                    }
+                    towerOne.setEnabled(true);
+                    towerTwo.setEnabled(true);
+                    gridWindow.repaint();
+                }
+            }
+        };
+        towerThree.addActionListener(addTowerThree);
+
+        gridWindow.add(towerThree);
+        gridWindow.repaint();
+        /*____________________________________________________________*/
+    }
     
     private static void createEndGameWindow(){
         gridWindow.dispose();
@@ -1187,7 +1181,6 @@ public class PokeDefence {
         currentScore.setText("Score: " + getScore());   
     }
     
-    
     public static void gameStart() {
 
         Thread gameThread = new Thread() {
@@ -1201,18 +1194,23 @@ public class PokeDefence {
     }
 
     public static void gameLoop() {
-        long beginTime, timeTaken, timeLeft;
         
+        boolean run = true;
         //This while loop breaks the game
-        while (true) {
-
-            gameUpdate();
-            tick++;
-
-            try {
-                Thread.sleep(1000);
-            } 
-            catch (InterruptedException ex) {
+        while (run) {
+            if(getLives() > 0){
+                gameUpdate();
+                tick++;
+            
+                try {
+                    Thread.sleep(1000);
+                } 
+                catch (InterruptedException ex) {
+                }
+            }
+            else{
+                run = false;
+                createEndGameWindow();
             }
 
         }
@@ -1261,9 +1259,9 @@ public class PokeDefence {
     
     public static void moveEnemy(int index){
         
-        System.out.println(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1)));
+        //System.out.println(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1)));
         if(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1))){
-            System.out.println("Got here");
+            //System.out.println("Got here");
             setLives(-1);
             updateStats();
         }
