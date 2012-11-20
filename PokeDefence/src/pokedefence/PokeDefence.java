@@ -412,6 +412,7 @@ public class PokeDefence {
         gameInfo.setText("Game Name: POKETOWER\n\n"
                 + "Description: \n      This is a Tower Defense game in which the enemy Pokemon are trying to attack the player's base."
                 + " They follow the set path and are being attacked by towers placed by the user trying to defend their base.\n\n"
+                + "The win condition is passing 11 waves.\n\n"
                 + "Authors:\n"
                 + "   Anton Nosov\n"
                 + "   Vincent Yong\n"
@@ -1327,7 +1328,7 @@ public class PokeDefence {
         while (run) {
             if(getLives() != 0){
                 gameUpdate();
-                tick++;
+                
                 
                 if((enemyHP - rangeFinder())> 0){
                     enemyHP = enemyHP - rangeFinder();
@@ -1410,7 +1411,7 @@ public class PokeDefence {
                 run = false;
                 createEndGameWindow();
             }
-
+            tick++;
         }
     }
 	/********************************************************************************
@@ -1465,7 +1466,6 @@ public class PokeDefence {
         
         
         if(enemyPath.get(tick).equals(enemyPath.get(enemyPath.size()-1))){
-            
             setLives(-1);
             updateStats();
         }
